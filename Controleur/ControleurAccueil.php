@@ -52,8 +52,8 @@ class ControleurAccueil extends Controleur {
             echo "ifsession";
             try {
                 echo "try";
-                //$token = (String)$session->getAccessToken();
-                $token      = (String)$session->getToken();
+                $token = (String)$session->getAccessToken();
+                //$token      = (String)$session->getToken();
                 echo "token ".$token;
                 $_SESSION['fb_token'] = $token;
                 //prepare
@@ -63,6 +63,7 @@ class ControleurAccueil extends Controleur {
                 $request = new FacebookRequest($session, 'GET', '/me');
                 echo "<br>ok request";
                 var_dump($request);
+                var_dump($request->execute());
                 //execute
                 $response = $request->execute();
                 echo "<br>ok response";
