@@ -50,7 +50,10 @@ class ControleurAccueil extends Controleur {
         if ($session) {
             echo "ifsession";
             try {
-                $token = (String)$session->getAccessToken();
+                echo "try";
+                //$token = (String)$session->getAccessToken();
+                $token      = (String)$session->getToken();
+                echo "token ".$token;
                 $_SESSION['fb_token'] = $token;
                 //prepare
                 $request = new FacebookRequest($session, 'GET', '/me');
@@ -58,6 +61,7 @@ class ControleurAccueil extends Controleur {
                 $response = $request->execute();
                 //transform la data graphObject
                 $user = $response->getGraphObject("Facebook\GraphUser");
+                var_dump($user);
                 //Vérification dans la table utilisateur
                 /*$result = $this->utilisateur->getUtilisateur(array('facebook_id'=>$user->getId()));
                 if(!$result){
