@@ -61,14 +61,15 @@ class ControleurAccueil extends Controleur {
                 $logMessage = $e->getMessage();
                 $helper = new FacebookRedirectLoginHelper($redirectUrl);
                 $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
-                $redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
+                $redirectLink =  '<a href="' . $auth_url . '">Login with Facebook</a>';
+                //$redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
             }
         }else{
             $logMessage = "else";
             $helper = new FacebookRedirectLoginHelper($redirectUrl);
             $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
             $redirectLink =  '<a href="' . $auth_url . '">Login with Facebook</a>';
-            $redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
+            //$redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
         }
         if($session){
             $this->genererVue(array('session' => $session,'redirectLink'=> $redirectLink,'logMessage'=>$logMessage,"user"=>$user));
