@@ -56,6 +56,7 @@ class ControleurAccueil extends Controleur {
                 echo "token ".$token;
                 $_SESSION['fb_token'] = $token;
                 //prepare
+                $session = new FacebookSession($token);
                 $request = new FacebookRequest($session, 'GET', '/me');
                 //execute
                 $response = $request->execute();
