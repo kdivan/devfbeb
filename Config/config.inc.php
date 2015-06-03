@@ -30,7 +30,7 @@ if(IS_LOCAL) {
     define('DB_NAME', 'dfcu88d9rcvqjg');
     define('DB_USER', 'uvewrtiishknof');
     define('DB_PASSWORD', 'HnT5nP1aUnrZXmNuC8PTplZog0');
-    define('SERVER_NAME','http://' .$_SERVER['REMOTE_ADDR']. '/');
+    define('SERVER_NAME','https://' .$_SERVER['REMOTE_ADDR']. '/');
 }
 
 define('DB_PREFIX','fb_');

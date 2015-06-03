@@ -23,7 +23,7 @@ class ControleurAccueil extends Controleur {
     public function index(){
         session_start();
 
-        $redirectLink = "http://localhost/devfbeb/";
+        $redirectLink = SERVER_NAME ;
         $logMessage = "";
 
         FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
