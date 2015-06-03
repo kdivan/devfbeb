@@ -25,6 +25,7 @@ class ControleurAccueil extends Controleur {
         session_start();
         var_dump(IS_LOCAL);
         var_dump(FB_APPID);
+        var_dump($_SESSION);
         $redirectLink = SERVER_NAME ;
         $logMessage = "";
 
