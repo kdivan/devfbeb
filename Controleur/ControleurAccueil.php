@@ -39,7 +39,10 @@ class ControleurAccueil extends Controleur {
             $session = FacebookSession::newAppSession();
             $_SESSION['session'] = $session;
         }
+        echo "SESSION";
         var_dump($_SESSION);
+        echo "<br>";
+        echo "session";
         var_dump($session);
         //$_SESSION['session2'] =  $helper->getSessionFromRedirect();
         $user = "";
