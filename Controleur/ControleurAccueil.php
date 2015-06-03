@@ -38,7 +38,7 @@ class ControleurAccueil extends Controleur {
             $session = new FacebookSession($_SESSION['fb_token']);
         } else {
             $session = $helper->getSessionFromRedirect();
-            $session = FacebookSession::newAppSession();
+            //$session = FacebookSession::newAppSession();
             $_SESSION['session'] = $session;
         }
         echo "<pre>";
