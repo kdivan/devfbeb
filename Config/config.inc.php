@@ -38,7 +38,7 @@ define('DB_PREFIX','fb_');
 /**
  * Facebook configuration
  */
-define('FB_RIGHTS','email,publish_actions,user_photos,user_friends');
+define('FB_RIGHTS','email,publish_actions,user_photos');
 define('FB_APPID', '384038925102491');
 define('FB_APPSECRET', '68283b74324f5ebf5a5ee4ccd87b43e4');
 
