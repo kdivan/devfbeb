@@ -60,6 +60,9 @@ class ControleurAccueil extends Controleur {
                 $session = new FacebookSession($token);
                 var_dump($session);
                 echo "<br>ok";
+                $helper = new FacebookRedirectLoginHelper($redirectUrl);
+                $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
+                echo '<a href="' . $auth_url . '">Login with Facebook</a>';
                 $request = new FacebookRequest($session, 'GET', '/me');
                 echo "<br>ok request";
                 var_dump($request);
