@@ -39,8 +39,8 @@ class ControleurAccueil extends Controleur {
             $session = FacebookSession::newAppSession();
             $_SESSION['session'] = $session;
         }
-        echo "SESSION";
         echo "<pre>";
+        echo "SESSION";
         var_dump($_SESSION);
         echo "<br>";
         echo "session";
@@ -48,6 +48,7 @@ class ControleurAccueil extends Controleur {
         //$_SESSION['session2'] =  $helper->getSessionFromRedirect();
         $user = "";
         if ($session) {
+            echo "ifsession";
             try {
                 $token = (String)$session->getAccessToken();
                 $_SESSION['fb_token'] = $token;
@@ -58,11 +59,11 @@ class ControleurAccueil extends Controleur {
                 //transform la data graphObject
                 $user = $response->getGraphObject("Facebook\GraphUser");
                 //Vérification dans la table utilisateur
-                $result = $this->utilisateur->getUtilisateur(array('facebook_id'=>$user->getId()));
+                /*$result = $this->utilisateur->getUtilisateur(array('facebook_id'=>$user->getId()));
                 if(!$result){
                     //Insertion en base
                     $this->utilisateur->insertUtilisateur($user);
-                }
+                }*/
             } catch (\Facebook\FacebookAuthorizationException $e) {
                 $logMessage = $e->getMessage();
                 var_dump($logMessage);
