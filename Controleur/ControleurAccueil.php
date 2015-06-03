@@ -23,6 +23,7 @@ class ControleurAccueil extends Controleur {
     // Affiche la liste de tous les billets du blog
     public function index(){
         session_start();
+        echo "<pre>";
         var_dump(IS_LOCAL);
         var_dump(FB_APPID);
         var_dump($_SESSION);
@@ -39,6 +40,7 @@ class ControleurAccueil extends Controleur {
         if (isset($_SESSION) && isset($_SESSION['fb_token'])) {
             $session = new FacebookSession($_SESSION['fb_token']);
         } else {
+            echo "<br>else<br>";
             $session = $helper->getSessionFromRedirect();
             var_dump($session);
             //$session = FacebookSession::newAppSession();
