@@ -62,6 +62,7 @@ class ControleurAccueil extends Controleur {
                 echo "<br>ok";
                 $request = new FacebookRequest($session, 'GET', '/me');
                 echo "<br>ok request";
+                var_dump($request);
                 //execute
                 $response = $request->execute();
                 echo "<br>ok response";
