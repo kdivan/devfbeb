@@ -40,6 +40,7 @@ class ControleurAccueil extends Controleur {
             $_SESSION['session'] = $session;
         }
         echo "SESSION";
+        echo "<pre>";
         var_dump($_SESSION);
         echo "<br>";
         echo "session";
