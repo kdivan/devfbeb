@@ -38,7 +38,8 @@ class ControleurAccueil extends Controleur {
             $session = $helper->getSessionFromRedirect();
             $_SESSION['session'] = $session;
         }
-        //var_dump($_SESSION);
+        var_dump($_SESSION);
+        var_dump($session);
         //$_SESSION['session2'] =  $helper->getSessionFromRedirect();
         $user = "";
         if ($session) {
