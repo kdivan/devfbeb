@@ -61,6 +61,8 @@ class ControleurAccueil extends Controleur {
                 }
             } catch (\Facebook\FacebookAuthorizationException $e) {
                 $logMessage = $e->getMessage();
+                var_dump($logMessage);
+                exit;
                 $helper = new FacebookRedirectLoginHelper($redirectUrl);
                 $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
                 $redirectLink =  '<a href="' . $auth_url . '">Login with Facebook</a>';
