@@ -23,7 +23,8 @@ class ControleurAccueil extends Controleur {
     // Affiche la liste de tous les billets du blog
     public function index(){
         session_start();
-
+        var_dump(IS_LOCAL);
+        var_dump(FB_APPID);
         $redirectLink = SERVER_NAME ;
         $logMessage = "";
 
