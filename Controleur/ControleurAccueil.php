@@ -35,10 +35,12 @@ class ControleurAccueil extends Controleur {
         $redirectUrl = $redirectLink;
         $helper = new FacebookRedirectLoginHelper($redirectUrl);
         $_SESSION['helper'] = $helper;
+        var_dump($helper);
         if (isset($_SESSION) && isset($_SESSION['fb_token'])) {
             $session = new FacebookSession($_SESSION['fb_token']);
         } else {
             $session = $helper->getSessionFromRedirect();
+            var_dump($session);
             //$session = FacebookSession::newAppSession();
             $_SESSION['session'] = $session;
         }
