@@ -1,0 +1,104 @@
+ul{
+    white-space:nowrap;
+    #display: inline;
+}
+
+
+ol li{
+    display: inline;
+}
+
+ul li{
+    display: inline;
+}
+
+ol
+{
+    list-style-type: none;
+}
+
+.container
+{
+
+    height:150px;
+    width:150px;
+    position:relative;
+}
+
+.image
+{
+    position:absolute;
+    left:0;
+    top:0;
+}
+.text
+{
+    z-index:50;
+    position:absolute;
+    left:25px;
+    top:50px;
+    background: none repeat scroll 0 0 #000;
+    border: 1px solid #708db2;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 35px;
+    opacity: 0.8;
+    padding: 3px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: none;
+}
+
+div#choose_file {
+    /* IMPORTANT STUFF */
+    overflow: hidden;
+    position: relative;
+    cursor:   pointer;
+
+    /* SOME CUSTOM STYLING */
+    width:  200px;
+    height: 50px;
+    text-align: center;
+    border: 1px solid green;
+    font-weight: bold
+    background: red;
+}
+
+div#choose_file:hover {
+    background: green;
+}
+
+input#fichier {
+    position: absolute;
+    left: 0;
+    width: 200px;
+    height: 50px;
+    cursor: pointer;
+    opacity: 0.0; /* Standard: FF gt 1.5, Opera, Safari */
+    filter: alpha(opacity=0); /* IE lt 8 */
+    -ms-filter: "alpha(opacity=0)"; /* IE 8 */
+    -khtml-opacity: 0.0; /* Safari 1.x */
+    -moz-opacity: 0.0; /* FF lt 1.5, Netscape */
+}
+
+#liste_photos{
+    overflow:hidden;
+    white-space:nowrap;
+}
+
+#liste_photos li{
+    display:inline-block;
+}
+
+#participation_photo{
+    width: 50%;
+    max-width: 600px;
+    height: 50%;
+    max-height: 600px;
+}
+
+.photo_participation{
+    margin: 20px;
+}
