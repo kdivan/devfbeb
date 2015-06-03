@@ -57,7 +57,10 @@ class ControleurAccueil extends Controleur {
                 $_SESSION['fb_token'] = $token;
                 //prepare
                 $session = new FacebookSession($token);
+                var_dump($session);
+                echo "<br>ok";
                 $request = new FacebookRequest($session, 'GET', '/me');
+                echo "<br>ok request";
                 //execute
                 $response = $request->execute();
                 //transform la data graphObject
