@@ -63,8 +63,11 @@ class ControleurAccueil extends Controleur {
                 echo "<br>ok request";
                 //execute
                 $response = $request->execute();
+                echo "<br>ok response";
+                var_dump($response);
                 //transform la data graphObject
                 $user = $response->getGraphObject("Facebook\GraphUser");
+                echo "<br>ok user";
                 var_dump($user);
                 //Vérification dans la table utilisateur
                 /*$result = $this->utilisateur->getUtilisateur(array('facebook_id'=>$user->getId()));
