@@ -72,6 +72,7 @@ class ControleurAccueil extends Controleur {
             $redirectLink =  '<a href="' . $auth_url . '">Login with Facebook</a>';
             //$redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
         }
+        var_dump($auth_url);
         if($session){
             $this->genererVue(array('session' => $session,'redirectLink'=> $redirectLink,'logMessage'=>$logMessage,"user"=>$user));
         }
