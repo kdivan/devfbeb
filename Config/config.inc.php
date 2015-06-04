@@ -32,7 +32,7 @@ if(IS_LOCAL) {
     define('DB_NAME', 'dfcu88d9rcvqjg');
     define('DB_USER', 'uvewrtiishknof');
     define('DB_PASSWORD', 'HnT5nP1aUnrZXmNuC8PTplZog0');
-    define('SERVER_NAME','https://devfbeb.herokuapp.com/');
+    define('SERVER_NAME','http://devfbeb.herokuapp.com/');
     define('FB_APPID', '384038925102491');
     define('FB_APPSECRET', '68283b74324f5ebf5a5ee4ccd87b43e4');
 }
