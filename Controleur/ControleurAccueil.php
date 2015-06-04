@@ -22,6 +22,7 @@ class ControleurAccueil extends Controleur {
 
     // Affiche la liste de tous les billets du blog
     public function index(){
+        phpinfo();
         session_start();
         echo "<pre>";
         var_dump(IS_LOCAL);
