@@ -42,11 +42,11 @@ class ControleurAccueil extends Controleur {
         } else {
             echo "<br>else<br>";
             $session = FacebookSession::newAppSession();
-            /*try{
+            try{
                 $session = $helper->getSessionFromRedirect();
             }catch (Exception $e){
                 var_dump($e);
-            }*/
+            }
             var_dump($session);
             //$session = FacebookSession::newAppSession();
             $_SESSION['session'] = $session;
