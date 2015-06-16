@@ -29,7 +29,9 @@ class ControleurAccueil extends Controleur {
 
         $redirectLink = SERVER_NAME ;
         $logMessage = "";
-
+        echo FB_APPID;
+        echo FB_APPSECRET;
+        exit;
         FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
         $file_name = "";
         $redirectUrl = $redirectLink;
