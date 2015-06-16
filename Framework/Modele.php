@@ -78,7 +78,7 @@ abstract class Modele {
             $login = Configuration::get("login");
             $mdp = Configuration::get("mdp");
             // Création de la connexion
-            self::$bdd = new PDO($dsn, $login, $mdp, 
+            self::$bdd = new PDO(DB_STRING, DB_USER, DB_PASSWORD,
                     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         }
         return self::$bdd;
