@@ -57,6 +57,14 @@ class ControleurAccueil extends Controleur {
                 //transform la data graphObject
                 $user = $response->getGraphObject("Facebook\GraphUser");
 
+                try{
+                    $pdo = new PDO(DB_STRING, DB_USER, DB_PASSWORD,
+                        array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+                }catch (PDOException $e){
+                    var_dump($e);
+                }
+                var_dump($pdo->query("SELECT * FROM fb_utilisateurs"));
+                var_dump($user);
                 //Vérification dans la table utilisateur
                 $result = $this->utilisateur->getUtilisateur(array('facebook_id',$user->getId()));
                 echo "result ";
