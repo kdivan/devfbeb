@@ -103,7 +103,7 @@ class Participation extends Modele {
         $checkData    = [$userId,$this->concours->getIdConcours(),"1"];
         $checkParticipation = $this->executerRequete($sql,$checkData);
         if( $checkParticipation->rowCount()>0 ){
-            //throw new Exception("Vous avez déjà participer au jeu");
+            throw new Exception("Vous avez déjà participer au jeu");
         }
     }
 
@@ -119,7 +119,7 @@ class Participation extends Modele {
                         WHERE actif = ?
                         AND fk_concours_id = ?
                         ORDER BY date_participation
-                        LIMIT ".$limitMin.",".$limitMax;
+                        LIMIT ".$limitMax." offset ".$limitMin;
         $participationList = $this->executerRequete( $sql,array("1",$this->concours->getIdConcours()) );
         $participationListArray = $participationList->fetchAll();
         $participationList->closeCursor();

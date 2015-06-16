@@ -79,7 +79,11 @@ class ControleurPhoto extends Controleur {
                     $albumsArray[] = array_merge($coverInfo, $albumArray);
                 }
             }
-            $this->genererVue( array('albumsArray'=>$albumsArray,'errorMessage'=>$errorMessage ) ) ;
+            if(isset($errorMessage)){
+                $this->genererVue( array('albumsArray'=>$albumsArray,'errorMessage'=>$errorMessage ) ) ;
+            }else{
+                $this->genererVue( array('albumsArray'=>$albumsArray ) ) ;
+            }
         }
     }
 
@@ -185,6 +189,7 @@ class ControleurPhoto extends Controleur {
         }else{
             $this->setSession( $this->getFacebookSession() );
         }
+        exit;
         //Genere la vue en fonction des evenements
         if( strlen($errorMessage) > 0 ){
             $this->executerAction("index",$errorMessage);

@@ -32,9 +32,11 @@ class Utilisateur extends Modele {
      * @throws Exception
      */
     public function getUtilisateur($selectArray){
-        $keyVal = each($selectArray);
-        $sql = "SELECT * FROM " .DB_PREFIX. "utilisateurs WHERE ".$keyVal['key']."=?";
-        $user = $this->executerRequete($sql,array($keyVal['value']));
+        var_dump($selectArray);
+        //$keyVal = each($selectArray);
+        //var_dump($keyVal);
+        $sql = "SELECT * FROM " .DB_PREFIX. "utilisateurs WHERE ".$selectArray[0]."=?";
+        $user = $this->executerRequete($sql,array($selectArray[1]));
         if ($user->rowCount() > 0){
             return $user->fetch();  // Accès à la première ligne de résultat
         }else{
