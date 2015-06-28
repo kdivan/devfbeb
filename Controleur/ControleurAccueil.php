@@ -40,7 +40,7 @@ class ControleurAccueil extends Controleur {
         if ($session) {
             $token = (String)$session->getAccessToken();
             $_SESSION['fb_token'] = $token;
-            $this->redirect(SERVER_NAME."photo/");
+            //$this->redirect(SERVER_NAME."photo/");
         }
         //TODO : GET CURRRENT USER SESSION
         $this->genererVue( );
