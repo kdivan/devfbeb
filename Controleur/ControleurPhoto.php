@@ -166,6 +166,7 @@ class ControleurPhoto extends Controleur {
      * @sendDataToView Array contenant les photos associées aux albums de l'utilisateur
      */
     public function getparticipationdetail(){
+        $this->init();
         if ( $this->requete->existeParametre('participationId') ) {
             $participationId    = $this->requete->getParametre('participationId');
             $participation      = $this->participation->findBy( array("id"=>$participationId) );
@@ -179,6 +180,7 @@ class ControleurPhoto extends Controleur {
      *
      */
     public function getmoreparticipation(){
+        $this->init();
         $participationData      = [];
         $limitMin               = $this->requete->getParametre('limitMin');
         $limitMax               = $this->requete->getParametre('limitMax');
@@ -272,6 +274,7 @@ class ControleurPhoto extends Controleur {
      *
      */
     public function gallery() {
+        $this->init();
         //TODO : getvote pour chaque photo
         $cpt                = 0;
         $photosDataArray    = [];
