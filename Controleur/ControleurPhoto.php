@@ -45,45 +45,45 @@ class ControleurPhoto extends Controleur {
      * Constructeur
      */
     public function __construct() {
-        session_start();
         $this->participation = new Participation();
         $this->utilisateur   = new Utilisateur();
         $this->concours      = new Concours();
-        $this->setRedirectUrl(SERVER_NAME . "photo/");
-        FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
-        $this->setSession($this->getFacebookSession());
-        $this->fb = new FacebookFunctions($this->session);
+        $this->setRedirectUrl( SERVER_NAME );
+        //$this->setSession($this->getFacebookSession());
+        //$this->fb = new FacebookFunctions($this->session);
     }
 
     /**
      *
      */
-    /*public function init(){
-        //handle connexion
+    public function init(){
+        session_start();
+        var_dump($_SESSION);
+        FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
         $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
         $_SESSION['helper'] = $helper;
         if (isset($_SESSION) && isset($_SESSION['fb_token'])) {
             $session = new FacebookSession($_SESSION['fb_token']);
         } else {
-            echo "<br>else<br>";
             $session = $helper->getSessionFromRedirect();
             $_SESSION['session'] = $session;
         }
         if ($session) {
-            var_dump($session);
-            $token = (String)$session->getToken();
+            $token = (String)$session->getAccessToken();
             $_SESSION['fb_token'] = $token;
-            var_dump($token);
-            exit;
         } else {
-            echo "else ";
-            $logMessage = "";
+            $logMessage = "else";
             $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
             $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
             $redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
-            $this->genererVue( array('redirectUrl'=>$redirectLink ) ) ;
         }
-    }*/
+        if (!$session) {
+            echo "session generer vue";
+            $this->genererVue(array('redirectLink' => $redirectLink));
+        }else{
+            $this->fb = new FacebookFunctions($session);
+        }
+    }
 
     /**
      *
@@ -91,6 +91,7 @@ class ControleurPhoto extends Controleur {
      * @sendDataToView Array contenant les albums de l'utilisateur
      */
     public function index($errorMessage=NULL) {
+        $this->init();
         //check if user has all perms
         if( $this->fb->checkPerms ( array ('public_profile','email','user_photos','publish_actions') ) ){
             try{
@@ -103,10 +104,12 @@ class ControleurPhoto extends Controleur {
                     $this->utilisateur->insertUtilisateur($currentUser);
                 }
                 //check if user has already participate in the competition
+                $hasUserParticipate = false;
                 try{
                     $this->participation->hasUserParticipateCurrentConcours($localUser['id']);
                 }catch ( Exception $e ){
-                    $message = $e->getMessage();
+                    //$message = $e->getMessage();
+                    $hasUserParticipate  = true;
                 }
                 if( strlen($message)>0 ){
                     $this->genererVue( array('dejaPartMessage'=>$message) ) ;

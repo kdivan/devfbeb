@@ -76,7 +76,7 @@ abstract class Controleur {
      * @param $url
      * @param int $statusCode
      */
-    function redirect($url, $statusCode = 303)
+    public function redirect($url, $statusCode = 303)
     {
         header('Location: ' . $url, true, $statusCode);
         die();

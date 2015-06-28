@@ -103,7 +103,7 @@ class Participation extends Modele {
         $checkData    = [$userId,$this->concours->getIdConcours(),"1"];
         $checkParticipation = $this->executerRequete($sql,$checkData);
         if( $checkParticipation->rowCount()>0 ){
-            //throw new Exception("Vous avez déjà participer au jeu");
+            throw new Exception("Vous avez déjà participer au jeu");
         }
     }
 
