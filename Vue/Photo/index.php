@@ -4,6 +4,9 @@ ini_set("error_display",1);
 $this->titre    = "Facebook | Participation";
 $customJsLink   ='<script src="Contenu/js/ajax_handler.js"></script>
             <script src="Contenu/js/functions.js"></script>';
+if( isset( $redirectLink ) ){
+    echo $redirectLink ;
+} else {
 ?>
 
 <div id="show_gallery"><a href="photo/gallery">Voir la galerie</a></div>
@@ -66,4 +69,5 @@ $customJsLink   ='<script src="Contenu/js/ajax_handler.js"></script>
     </div>
 
 <?php } ?>
+    <?php }?>
 <?=$customJsLink?>

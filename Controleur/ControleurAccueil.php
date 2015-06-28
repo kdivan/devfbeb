@@ -21,12 +21,13 @@ class ControleurAccueil extends Controleur {
         $this->utilisateur = new Utilisateur();
     }
 
-    // Affiche la liste de tous les billets du blog
+    /**
+     *
+     */
     public function index(){
         session_start();
         //phpinfo();
-        echo "<pre>";
-
+        //echo "<pre>";
         $redirectLink = SERVER_NAME ;
         $logMessage = "";
         FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
@@ -34,84 +35,40 @@ class ControleurAccueil extends Controleur {
         $redirectUrl = $redirectLink;
         $helper = new FacebookRedirectLoginHelper($redirectUrl);
         $_SESSION['helper'] = $helper;
-        if (isset($_SESSION) && isset($_SESSION['fb_token'])) {
+        /*if (isset($_SESSION) && isset($_SESSION['fb_token'])) {
             $session = new FacebookSession($_SESSION['fb_token']);
         } else {
             echo "<br>else<br>";
             $session = $helper->getSessionFromRedirect();
             $_SESSION['session'] = $session;
-        }
-        $user = "";
+        }*/
+        //TODO : GET CURRRENT USER SESSION
+        /*$user = "";
         if ($session) {
             echo "ifsession";
             try {
-                //echo "try";
-                $token = (String)$session->getAccessToken();
-                //echo "token ".$token;
+                $token = (String)$session->getToken();
                 $_SESSION['fb_token'] = $token;
-                //prepare
-                $request = new FacebookRequest($session, 'GET', '/me');
-                //execute
-                $response = $request->execute();
-
-                //transform la data graphObject
-                $user = $response->getGraphObject("Facebook\GraphUser");
-
-                try{
-                    $pdo = new PDO(DB_STRING, DB_USER, DB_PASSWORD,
-                        array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-                }catch (PDOException $e){
-                    var_dump($e);
-                }
-                var_dump($pdo->query("SELECT * FROM fb_utilisateurs"));
-                var_dump($user);
-                //Vérification dans la table utilisateur
-                $result = $this->utilisateur->getUtilisateur(array('facebook_id',$user->getId()));
-                echo "result ";
-                var_dump($result);
-                if(!$result){
-                    //Insertion en base
-                    $this->utilisateur->insertUtilisateur($user);
-                }
             } catch (\Facebook\FacebookAuthorizationException $e) {
+                echo "catch ".$e->getMessage();
+                exit;
                 $logMessage = $e->getMessage();
-                var_dump($logMessage);
                 $helper = new FacebookRedirectLoginHelper($redirectUrl);
-                $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
-                //$redirectLink =  '<a href="' . $auth_url . '">Login with Facebook</a>';
-                $redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
+                $auth_url = $helper->getLoginUrl();
+                //$redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
             }
         }else{
-            $logMessage = "else";
+            $logMessage = "";
             $helper = new FacebookRedirectLoginHelper($redirectUrl);
-            $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
-            //$redirectLink =  '<a href="' . $auth_url . '">Login with Facebook</a>';
+            $auth_url = $helper->getLoginUrl();
             $redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
-        }
-        if($session){
-            echo "session generer vue";
-            $this->genererVue(array('session' => $session,'redirectLink'=> $redirectLink,'logMessage'=>$logMessage,"user"=>$user));
-        }
+        }*/
+        //if($session){
+            $this->genererVue( );
+        /*}
         else{
-            echo "no session generer vue";
-            $this->genererVue(array('session' => $session,'redirectLink'=> $redirectLink,'logMessage'=>$logMessage,"user"=>$user),false);
-        }
+            $this->genererVue( array( 'redirectLink'=> $redirectLink,'logMessage'=>$logMessage,"user"=>$user),false );
+        }*/
     }
-
-    public function retour()
-    {
-        session_start();
-        FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
-        $redirectLink = "http://localhost/devfbeb/Accueil/retour";
-        $helper = new FacebookRedirectLoginHelper("");
-        try {
-            $session = $helper->getSessionFromRedirect();
-        } catch (FacebookRequestException $ex) {
-            var_dump($ex);
-            exit;
-        }
-        $this->genererVue(array('session'=>$session,'helper'=>$helper));
-    }
-
 }
 

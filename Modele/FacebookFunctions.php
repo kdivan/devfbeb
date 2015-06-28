@@ -30,15 +30,21 @@ class FacebookFunctions
         /**
          * Get all albums of the current user
          */
-        //Request
-        $request = new FacebookRequest($this->session,'GET','/me/albums');
-        //execute
-        $response = $request->execute();
-        //transform la data graphObject
-        $userAlbums = $response->getGraphObject();
-        //$userAlbums->getProperty('data')
-        $usersAlbumArray = $userAlbums->asArray();
-        return $usersAlbumArray;
+        try{
+            //Request
+            $request = new FacebookRequest($this->session,'GET','/me/albums');
+            //execute
+            $response = $request->execute();
+            //transform la data graphObject
+            $userAlbums = $response->getGraphObject();
+            //$userAlbums->getProperty('data')
+            $usersAlbumArray = $userAlbums->asArray();
+            return $usersAlbumArray;
+        }catch (Exception $e){
+            var_dump($e);
+            exit;
+        }
+
     }
 
     /**
@@ -118,4 +124,38 @@ class FacebookFunctions
         $pictureInfo = $response->getGraphObject();
         return $pictureInfo->asArray();
     }
+
+    /**
+     * @param string $permName
+     * @return mixed
+     * @throws \Facebook\FacebookRequestException
+     */
+    public function getUserPermissions($permName=""){
+        if(isset($permName) && strlen($permName)>0){
+            $request = new FacebookRequest($this->session,'GET','/me/permissions'.'/'.$permName);
+        } else {
+            $request = new FacebookRequest($this->session,'GET','/me/permissions');
+        }
+        //execute
+        $response = $request->execute();
+        //transform la data graphObject
+        $perms = $response->getGraphObject();
+        $permsArray = $perms->asArray();
+        return $permsArray;
+    }
+
+    /**
+     * @param $fbRequestedPerms
+     * @return bool
+     */
+    public function checkPerms($fbRequestedPerms){
+        foreach($fbRequestedPerms as $perm){
+            $fbPerm = $this->getUserPermissions($perm);
+            if(count($fbPerm)<1){
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

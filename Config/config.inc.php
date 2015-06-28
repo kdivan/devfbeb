@@ -37,14 +37,16 @@ if(IS_LOCAL) {
     define('FB_APPSECRET', '94b582458ecdac47af61076e46ea7e3d');
 }
 
+/**
+ * DB Common configuration
+ */
 define('DB_STRING','pgsql:host=ec2-54-228-227-217.eu-west-1.compute.amazonaws.com;dbname=dfcu88d9rcvqjg');
-
 define('DB_PREFIX','fb_');
 
 /**
  * Facebook configuration
  */
-define('FB_RIGHTS','email,publish_actions,user_photos');
+define('FB_RIGHTS','public_profile,email,user_photos,publish_actions');
 
 
 /**
