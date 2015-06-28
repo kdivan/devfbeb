@@ -16,9 +16,9 @@
         <p><?=$participationDataArray['name']?></p>
     </div>
 
-    <div class="fb-like" data-href="http://localhost/devfbeb/photo/participation/<?=$participationDataArray['id']?>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+    <div class="fb-like" data-href="<?=SERVER_NAME?>photo/participation/<?=$participationDataArray['id']?>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
     <br/>
-    <div class="fb-comments" data-href="http://localhost/devfbeb/photo/participation/<?=$participationDataArray['id']?>" data-numposts="5" data-colorscheme="light"></div>
+    <div class="fb-comments" data-href="<?=SERVER_NAME?>photo/participation/<?=$participationDataArray['id']?>" data-numposts="5" data-colorscheme="light"></div>
 
     <div id="social_buttons">
 
