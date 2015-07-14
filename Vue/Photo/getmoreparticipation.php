@@ -8,13 +8,14 @@ $cpt = 0;
     <?php if($cpt == MAX_IMAGE_PER_LINE) { ?>
         <br />
         <?php $cpt=0; } ?>
-    <li class="photo_participation" onclick="displayParticipationDetail('<?=$photo['id_participation']?>')">
+    <li class="photo_participation">
+        <a href="photo/participation/<?=$photo['id_participation']?>">
         <img src="<?= $photo['source'] ?>" width="100px" height="100px"/>
         <figcaption>
             <?= "TEST" ?>
         </figcaption>
         <!--On affiche dans cette div le bouton voter, le nombre de like et un message!-->
-        <!--<div id="content"></div>!-->
+            <div class="content"></div>
     </li>
 <?php $cpt++; } ?>
 

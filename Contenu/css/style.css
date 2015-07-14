@@ -7,7 +7,7 @@
    Pour pouvoir utiliser un "min-height: 100%" sur div#global, il nous faut:
    - un parent (body) en "height: 100%";
    - le parent de body également en "height: 100%". */
-html, body {
+/*html, body {
     height: 100%;
 }
 
@@ -27,10 +27,10 @@ h1 {
 
 #global {
     min-height: 100%;  /* Voir commentaire sur html et body plus haut */
-    background: #333534;
+/*    background: #333534;
     width: 70%;
     margin: auto;	/* Permet de centrer la div */
-    text-align: justify;
+/*    text-align: justify;
     padding: 5px 20px;
 }
 
@@ -48,4 +48,100 @@ h1 {
 
 #txtCommentaire {
     width: 50%;
+}*/
+
+.container
+{
+    height:150px;
+    width:150px;
+    position:relative;
+}
+.text
+{
+    z-index:50;
+    position:absolute;
+    left:25px;
+    top:50px;
+    background: none repeat scroll 0 0 #000;
+    border: 1px solid #708db2;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 35px;
+    opacity: 0.8;
+    padding: 3px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: none;
+}
+
+div#choose-local-file {
+    /* IMPORTANT STUFF */
+    overflow: hidden;
+    position: relative;
+    cursor:   pointer;
+
+    /* SOME CUSTOM STYLING */
+    width:  200px;
+    height: 50px;
+    text-align: center;
+    border: 1px solid green;
+    font-weight: bold
+background: red;
+}
+
+div#choose-local-file:hover {
+    background: green;
+}
+
+input#fichier {
+    position: absolute;
+    left: 0;
+    width: 200px;
+    height: 50px;
+    cursor: pointer;
+    opacity: 0.0; /* Standard: FF gt 1.5, Opera, Safari */
+    filter: alpha(opacity=0); /* IE lt 8 */
+    -ms-filter: "alpha(opacity=0)"; /* IE 8 */
+    -khtml-opacity: 0.0; /* Safari 1.x */
+    -moz-opacity: 0.0; /* FF lt 1.5, Netscape */
+}
+
+
+#participation_photo{
+    width: 50%;
+    max-width: 600px;
+    height: 50%;
+    max-height: 600px;
+}
+
+.photo_participation{
+    margin: 20px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.list-inline>div>li{
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
 }

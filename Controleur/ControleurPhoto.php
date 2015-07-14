@@ -49,6 +49,7 @@ class ControleurPhoto extends Controleur {
         $this->utilisateur   = new Utilisateur();
         $this->concours      = new Concours();
         $this->setRedirectUrl( SERVER_NAME );
+        $this->init();
         //$this->setSession($this->getFacebookSession());
         //$this->fb = new FacebookFunctions($this->session);
     }
@@ -57,8 +58,10 @@ class ControleurPhoto extends Controleur {
      *
      */
     public function init(){
-        session_start();
-        var_dump($_SESSION);
+        if(!isset($_SESSION)){
+            session_start();
+        }
+        //var_dump($_SESSION);
         FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
         $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
         $_SESSION['helper'] = $helper;
@@ -69,6 +72,7 @@ class ControleurPhoto extends Controleur {
             $_SESSION['session'] = $session;
         }
         if ($session) {
+            $this->session = $session;
             $token = (String)$session->getAccessToken();
             $_SESSION['fb_token'] = $token;
         } else {
@@ -91,60 +95,89 @@ class ControleurPhoto extends Controleur {
      * @sendDataToView Array contenant les albums de l'utilisateur
      */
     public function index($errorMessage=NULL) {
-        $this->init();
         //check if user has all perms
-        if( $this->fb->checkPerms ( array ('public_profile','email','user_photos','publish_actions') ) ){
-            try{
-                $message="";
+        if ($this->fb->checkPerms(array('public_profile', 'email', 'user_photos', 'publish_actions'))) {
+            try {
+                $message = "";
                 $currentUser = $this->fb->getCurrentUser();
                 //Vérification dans la table utilisateur
-                $localUser = $this->utilisateur->getUtilisateur(array('facebook_id',$currentUser->getId()));
-                if(!$localUser){
+                $localUser = $this->utilisateur->getUtilisateur(array('facebook_id', $currentUser->getId()));
+                if (!$localUser) {
                     //Insertion en base
                     $this->utilisateur->insertUtilisateur($currentUser);
                 }
                 //check if user has already participate in the competition
-                $hasUserParticipate = false;
-                try{
-                    $this->participation->hasUserParticipateCurrentConcours($localUser['id']);
-                }catch ( Exception $e ){
-                    //$message = $e->getMessage();
-                    $hasUserParticipate  = true;
-                }
-                if( strlen($message)>0 ){
-                    $this->genererVue( array('dejaPartMessage'=>$message) ) ;
-                }else{
-                    $userAlbumArray = $this->fb->getUserAlbums();
-                    foreach( $userAlbumArray['data'] as $album ) {
-                        $albumArray = json_decode(json_encode($album), true);
-                        if( array_key_exists('cover_photo',$albumArray) ) {
-                            try{
-                                $coverInfo = $this->fb->getPictureInfo($albumArray['cover_photo']);
-                            }catch (Exception $e){
-                                $e->getMessage();
-                                exit;
-                            }
-                            $albumsArray[] = array_merge($coverInfo, $albumArray);
+                $participation = $this->participation->hasUserParticipateCurrentConcours($localUser['id']);
+                //$participation = false;
+                if ($participation) {
+                    //si le paramètre id existe => mode modification
+                    // mettre l'image actuel en preview, pré remplir le message
+                    if ( $this->requete->existeParametre('id') ) {
+                        //recupération des infos de participation
+                        $albumsArray        = $this->getAlbumData();
+                        $participationId    = $this->requete->getParametre('id');
+                        //controle avec current user
+                        //isUserParticipation($participationId,$localUser);
+                        $participation      = $this->participation->findBy( array("id"=>$participationId) );
+                        if( $participation['fk_utilisateur_id'] == $localUser['id']) {
+                            $fbPhotoInfo        = $this->fb->getPictureInfo($participation['facebook_photo_id']);
+                            $participationDataArray[]  = array_merge($participation,$fbPhotoInfo);
+                            $this->genererVue(array('editParticipation' => 'true', 'participation' => $participation,
+                                                'albumsArray' => $albumsArray, 'participationDataArray'=> $participationDataArray));
+                        } else {
+                            $this->genererVue(array('notAllowed' => true) ) ;
                         }
-                    }
-                    if(isset($errorMessage)){
-                        $this->genererVue( array('albumsArray'=>$albumsArray,'errorMessage'=>$errorMessage ) ) ;
-                    }else{
-                        $this->genererVue( array('albumsArray'=>$albumsArray ) ) ;
+                    } else {
+                        $this->executerAction( 'participate', array('hasParticipate' => true, 'participation' => $participation) );
                     }
                 }
-            }catch(Exception $e) {
+                else {
+                    $albumsArray = $this->getAlbumData();
+                    if (isset($errorMessage)) {
+                        $this->genererVue(array('albumsArray' => $albumsArray, 'errorMessage' => $errorMessage));
+                    } else {
+                        $this->genererVue(array('albumsArray' => $albumsArray));
+                    }
+                }
+            } catch (Exception $e) {
                 var_dump($e);
                 exit;
             }
-        }
-        //redirect for login with perms
+        } //redirect for login with perms
         else {
             $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
             $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
             $redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
-            $this->genererVue( array('redirectUrl'=>$redirectLink ) ) ;
+            $this->genererVue(array('redirectUrl' => $redirectLink));
         }
+
+    }
+
+    /**
+     * @return array
+     */
+    private function getAlbumData(){
+        $userAlbumArray = $this->fb->getUserAlbums();
+        foreach ($userAlbumArray['data'] as $album) {
+            $albumArray = json_decode(json_encode($album), true);
+            if (array_key_exists('cover_photo', $albumArray)) {
+                try {
+                    $coverInfo = $this->fb->getPictureInfo($albumArray['cover_photo']);
+                } catch (Exception $e) {
+                    $e->getMessage();
+                    //exit;
+                }
+                $albumsArray[] = array_merge($coverInfo, $albumArray);
+            }
+        }
+        return $albumsArray;
+    }
+
+    /**
+     * @param $dataArray
+     */
+    public function participate($dataArray) {
+        $this->genererVue( $dataArray );
     }
 
     /**
@@ -154,9 +187,24 @@ class ControleurPhoto extends Controleur {
      */
     public function getphotos(){
         if ( $this->requete->existeParametre('albumId') ) {
+            $this->fb = new FacebookFunctions($this->session);
             $albumId = $this->requete->getParametre('albumId');
             $albumPhotosArray = $this->fb->getAlbumPhotos($albumId);
             $this->genererVue( array('albumPhotosArray' => $albumPhotosArray),false );
+        }
+    }
+
+    /**
+     *
+     */
+    public function participation(){
+        $this->init();
+        if ( $this->requete->existeParametre('id') ) {
+            $participationId    = $this->requete->getParametre('id');
+            $participation      = $this->participation->findBy( array("id"=>$participationId) );
+            $fbPhotoInfo        = $this->fb->getPictureInfo($participation['facebook_photo_id']);
+            $participationDataArray[]  = array_merge($participation,$fbPhotoInfo);
+            $this->genererVue( array('participationDataArray' => $participationDataArray[0]) );
         }
     }
 
@@ -203,71 +251,84 @@ class ControleurPhoto extends Controleur {
         $_FILES['fichier']['error'] . "<br>";//Le code d'erreur, qui permet de savoir si le fichier a bien été uploadé.
      * @throws \Facebook\FacebookRequestException
      */
-    public function participer(){
+    public function participer( ){
         //me/permission permettent de recupérer les permissions données par l'utilisateur
-        if ( $this->session ) {
-            if( $this->requete->existeParametre('submit') ) {
-                $userMessage = "Votez pour moi !";
-                if ($this->requete->existeParametre('message')) {
-                    if (strlen($this->requete->getParametre('message')) > 0) {
-                        $userMessage = $this->requete->getParametre('message');
+        $errorMessage = "";
+        try{
+            if ( $this->session ) {
+                if( $this->requete->existeParametre('submit') ) {
+                    $userMessage = "Votez pour moi !";
+                    if ($this->requete->existeParametre('message')) {
+                        if (strlen($this->requete->getParametre('message')) > 0) {
+                            $userMessage = $this->requete->getParametre('message');
+                        }
                     }
-                }
-                echo "message de l'utilisateur " . $userMessage;
-                if( $this->requete->existeParametre('photo_from') ){
-                    $dataToInsert = [];
-                    if( ( trim($this->requete->getParametre('photo_from'))=='fb' ) ){
-                        $fbPhotoId    =  $this->requete->getParametre('photo_facebook_id') ;
-                    }elseif( trim($this->requete->getParametre('photo_from'))=='local' ){
-                        if ( $_FILES['fichier']['error'] > 0 ){
-                            $errorMessage = "Erreur lors du transfert : ". $_FILES['fichier']['error'];
-                        }else{
-                            try {
-                                //Upload l'image sur le mur de l'utilisateur
-                                $this->fb = new FacebookFunctions($this->session);
-                                $response = $this->fb->uploadPhotoToUserTimeline($_FILES,$userMessage);
-                                $fbPhotoId = $response->getProperty('id');
-                            } catch (FacebookRequestException $e) {
-                                $errorMessage =  $e->getMessage();
-                            }
-                            if( strlen($errorMessage) < 1 ){
-                                $currentUser = $this->fb->getCurrentUser();
-                                $localUser = $this->utilisateur->getUtilisateur(array('facebook_id',$currentUser->getId()));
+                    //echo "message de l'utilisateur " . $userMessage;
+                    if( $this->requete->existeParametre('photo_from') ){
+                        $dataToInsert = [];
+                        if( ( trim($this->requete->getParametre('photo_from'))=='fb' ) ){
+                            $fbPhotoId    =  $this->requete->getParametre('photo_facebook_id') ;
+                        }elseif( trim($this->requete->getParametre('photo_from'))=='local' ){
+                            if ( $_FILES['fichier']['error'] > 0 ){
+                                throw new Exception("Erreur lors du transfert : ". $_FILES['fichier']['error']);
+                            }else{
+                                try {
+                                    //Upload l'image sur le mur de l'utilisateur
+                                    $this->fb = new FacebookFunctions($this->session);
+                                    $response = $this->fb->uploadPhotoToUserTimeline($_FILES,$userMessage);
+                                    $fbPhotoId = $response->getProperty('id');
+                                } catch (FacebookRequestException $e) {
+                                    $errorMessage =  $e->getMessage();
+                                }
+                                if( strlen($errorMessage) < 1 ){
+                                    $currentUser = $this->fb->getCurrentUser();
+                                    $localUser = $this->utilisateur->getUtilisateur(array('facebook_id',$currentUser->getId()));
 
-                                $dataToInsert['facebook_photo_id']  = $fbPhotoId;
-                                $dataToInsert['fk_utilisateur_id']  = $localUser['id'];
-                                $dataToInsert['fk_concours_id']     = $this->concours->getIdConcours();
-                                $dataToInsert['message']            = $userMessage;
-                                $dataToInsert['actif']              = 1;
-                                $this->participation->insertParticipation($dataToInsert);
+                                    $dataToInsert['facebook_photo_id']  = $fbPhotoId;
+                                    $dataToInsert['fk_utilisateur_id']  = $localUser['id'];
+                                    $dataToInsert['fk_concours_id']     = $this->concours->getIdConcours();
+                                    $dataToInsert['message']            = $userMessage;
+                                    $dataToInsert['actif']              = 1;
+                                    $lastId  = $this->participation->insertParticipation($dataToInsert);
+
+                                    //si modification de l'image
+                                    if( $this->requete->existeParametre('edit_mode') ){
+                                        if( trim($this->requete->getParametre('edit_mode'))=='true' ){
+                                            $editMode = "true";
+                                            $this->participation->disableParticipation($this->requete->getParametre('id_participation'));
+                                        }
+                                    }
+                                }
                             }
+                        }else{
+                            throw new Exception("Action non reconnue : ni local, ni fb");
                         }
                     }else{
-                        $errorMessage = "Action non reconnue : ni local, ni fb";
+                        throw new Exception("Action non reconnue : Photo from null");
                     }
                 }else{
-                    $errorMessage =  "Action non reconnue : Photo from null";
+                    throw new Exception("Une erreur a eu lieu lors de l'upload de la photo");
                 }
             }else{
-                $errorMessage = "Une erreur a eu lieu lors de l'upload de la photo";
+                $this->setSession( $this->getFacebookSession() );
             }
-        }else{
-            $this->setSession( $this->getFacebookSession() );
+        }catch (Exception $e){
+            $errorMessage = $e->getMessage();
         }
-        exit;
+        //$this->genererVue(array("message"=>$errorMessage,'param'=>$this->requete->getParametre('edit_mode'),'return'=>$lastId));
         //Genere la vue en fonction des evenements
         if( strlen($errorMessage) > 0 ){
             $this->executerAction("index",$errorMessage);
         }else{
-            $this->redirect(SERVER_NAME."photo/confirmation");
+            $this->executerAction("confirmation",array( 'lastId'=>$lastId, 'editMode'=>$editMode ));
         }
     }
 
     /**
      *
      */
-    public function confirmation(){
-        $this->genererVue();
+    public function confirmation($params=array()){
+        $this->genererVue($params);
     }
 
     /**
@@ -289,6 +350,11 @@ class ControleurPhoto extends Controleur {
             $class          = "enable";
             $elementLoad    = $limitMax;
         }
+        $currentUser = $this->fb->getCurrentUser();
+        //Vérification dans la table utilisateur
+        $localUser = $this->utilisateur->getUtilisateur(array('facebook_id', $currentUser->getId()));
+        $participation = $this->participation->hasUserParticipateCurrentConcours($localUser['id']);
+        $hasParticipate = ( isset( $participation ) )? true : false;
         foreach($photosGalleryArray as $photos){
             $cpt++;
             if($cpt<=$limitMax) {
@@ -296,7 +362,8 @@ class ControleurPhoto extends Controleur {
                 $photosDataArray[] = array_merge($photos, $fbPhotoInfo);
             }
         }
-        $this->genererVue( array( 'photosGalleryArray'=>$photosDataArray,'class'=>$class,'elementLoad'=>$elementLoad ) ) ;
+        $this->genererVue( array( 'photosGalleryArray'=>$photosDataArray,'class'=>$class,'elementLoad'=>$elementLoad,
+                                    'hasParticipate' => $hasParticipate, 'participation'=>$participation ) ) ;
     }
 
 

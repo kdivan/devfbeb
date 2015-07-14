@@ -23,7 +23,7 @@ function displayPhotos(albumId){
 }
 
 function openDialog(){
-    $("#from_facebook_dialog").dialog({
+    $("#from_facebook_modal").dialog({
         title: 'Sélectionnez un album puis une photo : ',
         resizable: false,
         width: 'auto',
@@ -32,17 +32,9 @@ function openDialog(){
 }
 
 function closeDialog(){
-    $("#from_facebook_dialog").dialog('close');
+    $("#from_facebook_modal").dialog('close');
 }
 
-/**
- * param local ou fb
- * @param photoFrom
- */
-function setPhotoFrom(photoFrom){
-    console.log("photo from "+photoFrom);
-    $("#photo_from").val(photoFrom);
-}
 
 function checkNextPrevButton(){
     if(userCurrPage > 1 && userCurrPage < nbPage){
@@ -119,12 +111,21 @@ function showPhotoToPreview(photoSource){
     if (photoSource) {
         $('#photo_prev').attr('src', photoSource);
     }
+    $("#is_new_image").val('true');
     console.log(photoSource);
     setPhotoFrom("fb");
-    closeDialog();
+    $('#from_facebook_modal').modal('hide');
 }
 
 
+/**
+ * param local ou fb
+ * @param photoFrom
+ */
+function setPhotoFrom(photoFrom){
+    console.log("photo from "+photoFrom);
+    $("#photo_from").val(photoFrom);
+}
 
 $( document ).ajaxComplete(function() {
     nbPage = $( "#nbPage").val();
@@ -155,6 +156,18 @@ $(document)
     });
 
 $("#form").submit(function( event ){
-    $("#photo_error").html("Une erreur a eu lieu");
-    //event.preventDefault();
+    console.log(event);
+    console.log($("#fichier").val());
+    var photo_from  = $("#photo_from").val();
+    var usrMsg      = $("#user_message").val();
+    var isNewImg    = $("#is_new_image").val();
+    console.log(isNewImg);
+    if(isNewImg.trim().localeCompare('true') == 0){
+
+    }else {
+        //afficher un message d'erreur
+        event.preventDefault();
+        console.log('Erreur');
+        return false;
+    }
 });

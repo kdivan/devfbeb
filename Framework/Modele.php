@@ -40,12 +40,12 @@ abstract class Modele {
             $cpt++;
         }
         //ecriture de la requête
-        $sql=$sql."(".$prepareQuery.") VALUES (".$nomVal.")";
+        $sql=$sql."(".$prepareQuery.") VALUES (".$nomVal.") RETURNING id";
         //Prepare sql
         $resultat       = self::getBdd()->prepare($sql); // requête préparée
-        $resultat->execute($data);
+
         $lastInsertId   = self::getBdd()->lastInsertId();
-        return $lastInsertId;
+        return $resultat->execute($data);
     }
 
     /**

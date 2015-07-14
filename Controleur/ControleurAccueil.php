@@ -25,7 +25,9 @@ class ControleurAccueil extends Controleur {
      *
      */
     public function index(){
-        session_start();
+        if(!isset($_SESSION)){
+            session_start();
+        }
         $redirectLink = SERVER_NAME ;
         FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
         $redirectUrl = $redirectLink;

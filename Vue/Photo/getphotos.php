@@ -16,17 +16,17 @@ $this->js.='<script src="Contenu/js/ajax_handler.js"></script>
 <div>
     <h6>Photos</h6>
     <?php if($nbPage > 1){ ?>
-        <ol>
+        <ul class="list-inline">
             <li class="prev" onclick="prevPage()" > < </li>
             <?php for($i=1;$i<=$nbPage;$i++){ ?>
                 <li onclick="displayPhotoPage('<?=$i?>')"><?=$i?></li>
             <?php } ?>
             <li class="next" onclick="nextPage()"> > </li>
-        </ol>
+        </ul>
     <?php } ?>
 </div>
 
-<ol>
+<ul class="list-inline">
 <?php
     $cptPhotos = 0;
     $numPage = 1 ;
@@ -34,7 +34,7 @@ $this->js.='<script src="Contenu/js/ajax_handler.js"></script>
     $cptPhotos+=1;
     if($nbPhotosInAlbum > MAX_ELEM_PER_PAGE){
         $currPage = ceil($cptPhotos/MAX_ELEM_PER_PAGE);
-        $style = ($currPage==1)? "style='display:inline'" : "style='display:none'" ;
+        $style = ($currPage==1)? "style=''" : "style='display:none'" ;
 ?>
         <li class="<?='elem_'.$currPage.' photo'?>"  <?=$style?>>
 <?php }else { ?>
@@ -46,6 +46,5 @@ $this->js.='<script src="Contenu/js/ajax_handler.js"></script>
             <p class="text">Selectionner</p>
             </span>
         </li>
-
 <?php } ?>
-</ol>
+</ul>

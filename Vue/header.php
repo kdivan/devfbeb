@@ -5,7 +5,7 @@ $this->titre = "Facebook | Concours photo ";
 $this->js ='<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
             <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>';
 $cssLink = '<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
-            <link rel="stylesheet" href="Contenu/css/fb_app.css" />';
+            <link rel="stylesheet" href="Contenu/css/style.css" />';
 ?>
 
 <!doctype html>
@@ -17,6 +17,8 @@ $cssLink = '<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/theme
     <title><?= $this->titre ?></title>
 </head>
 <body>
+<div id="fb-root">
+</div>
 <script>
     window.fbAsyncInit = function() {
         FB.init({

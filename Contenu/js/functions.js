@@ -16,6 +16,7 @@ function readURL(input) {
 $(document).ready(function () {
     $("#fichier").change(function(){
         readURL(this);
+        $("#is_new_image").val('true');
         setPhotoFrom("local");
     });
 });

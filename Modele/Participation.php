@@ -25,11 +25,25 @@ class Participation extends Modele {
      */
     public function insertParticipation($participationArray){
         $lastInsertId = $this->insert(DB_PREFIX.'participation',$participationArray);
-        if($lastInsertId > 0 ){
-            return $lastInsertId;
+        if( $lastInsertId  ){
+            $sql = "SELECT max(id) as max_id FROM ".DB_PREFIX."participation where actif=1";
+            $res = $this->executerRequete($sql)->fetch();
+            return $res['max_id'];
         }else{
-            throw new Exception("La participation n'a pas été correctement insérer");
+            throw new Exception("La participation n'a pas été correctement insérer".$lastInsertId);
         }
+        //return $lastInsertId;
+    }
+
+    /**
+     * @param $participationId
+     * @return PDOStatement
+     * @throws Exception
+     */
+    public function disableParticipation($participationId){
+        $sql = "UPDATE ".DB_PREFIX.'participation SET actif = ? WHERE id = ?';
+        $updateParticipation = $this->executerRequete( $sql,array("0",$participationId) );
+        return $updateParticipation;
     }
 
     /**
@@ -55,7 +69,7 @@ class Participation extends Modele {
      */
     public function findBy($selectArray){
         $keyVal = each($selectArray);
-        $sql = "SELECT ". DB_PREFIX ."participation.*,id as id_participation FROM " .DB_PREFIX. "participation WHERE ".$keyVal['key']."=?";
+        $sql = "SELECT ". DB_PREFIX ."participation.*,id as id_participation FROM " .DB_PREFIX. "participation WHERE ".$keyVal['key']."=? AND actif=1";
         $participation = $this->executerRequete($sql,array($keyVal['value']));
         if ($participation->rowCount() > 0){
             return $participation->fetch();  // Accès à la première ligne de résultat
@@ -93,7 +107,7 @@ class Participation extends Modele {
 
     /**
      * @param $userId
-     * @throws Exception
+     * @return bool|mixed
      */
     public function hasUserParticipateCurrentConcours($userId){
         $sql = "SELECT * FROM ".DB_PREFIX."participation
@@ -103,7 +117,9 @@ class Participation extends Modele {
         $checkData    = [$userId,$this->concours->getIdConcours(),"1"];
         $checkParticipation = $this->executerRequete($sql,$checkData);
         if( $checkParticipation->rowCount()>0 ){
-            throw new Exception("Vous avez déjà participer au jeu");
+            return $checkParticipation->fetch();
+        } else {
+            return false;
         }
     }
 

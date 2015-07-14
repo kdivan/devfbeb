@@ -5,6 +5,7 @@ $this->js.='<script src="Contenu/js/ajax_handler.js"></script>
             <script src="Contenu/js/functions.js"></script>';
 ?>
 
-<?= $message ?>
+<?php var_dump($message); ?>
+<?php var_dump($return); ?>
 
 <a href="photo/gallery">Gallerie</a>

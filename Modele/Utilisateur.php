@@ -21,7 +21,7 @@ class Utilisateur extends Modele {
         if($lastInsertId > 0 ){
             return $lastInsertId;
         }else{
-            throw new Exception("L'utilisateur n'a pas été correctement insérer");
+            //throw new Exception("L'utilisateur n'a pas été correctement insérer");
         }
     }
 
@@ -32,7 +32,7 @@ class Utilisateur extends Modele {
      * @throws Exception
      */
     public function getUtilisateur($selectArray){
-        var_dump($selectArray);
+        //var_dump($selectArray);
         //$keyVal = each($selectArray);
         //var_dump($keyVal);
         $sql = "SELECT * FROM " .DB_PREFIX. "utilisateurs WHERE ".$selectArray[0]."=?";

@@ -4,70 +4,91 @@ ini_set("error_display",1);
 $this->titre    = "Facebook | Participation";
 $customJsLink   ='<script src="Contenu/js/ajax_handler.js"></script>
             <script src="Contenu/js/functions.js"></script>';
+$imgSrc = "#";
+$usrMsg = "";
 if( isset( $redirectLink ) ){
     echo $redirectLink ;
-} else {
+}
 ?>
 
-<div id="show_gallery"><a href="photo/gallery">Voir la galerie</a></div>
+    <?php if ( isset($errorMessage) || !(is_null($errorMessage)) || isset($notAllowed) ) { ?>
+        <?php $errorMessage = ($notAllowed)?"Vous n'êtes pas autorisé à modifier cette photo":$errorMessage;?>
+        <div id="error_message"><?=$errorMessage?></div>
+    <?php } else { ?>
 
-<?php if(isset($dejaPartMessage)){ ?>
 
-    <div id="particpate"><?=$dejaPartMessage?></div>
+    <?php if ( isset($editParticipation) ) {
+        $imgSrc = $participationDataArray[0]['source'];
+        $usrMsg = $participationDataArray[0]['name'];
+        var_dump($participationDataArray);
+    } ?>
 
-<?php }else { ?>
-            <?php if ( isset($errorMessage) || !(is_null($errorMessage)) ) { ?>
-                <div id="error_message"><?=$errorMessage?></div>
-            <?php }?>
-    <div id="main_photo">
-
-        <div id="photo preview">
-            <img id="photo_prev" src="#" alt="Preview de votre photo (600px x 600px maximum)" width="300px" height="300px" />
+        <div id="photo-preview-container" style="float: left; margin-right: 200px;">
+            <img id="photo_prev" src="<?= $imgSrc ?>" alt="Preview de votre photo (600px x 600px maximum)" width="300px" height="300px" />
         </div>
 
-        <div id="photo_choice">
+        <div id="photo-choice-container" style="float: right;width: 200px;">
             <form id="form" method="post" action="photo/participer" enctype="multipart/form-data">
 
-                <div id="from_facebook_dialog" style="display: none;" >
-                    <div class="albums"><h6>Albums</h6>
-                        <ul>
-                            <?php foreach($albumsArray as $album) { ?>
-                                <li onclick="displayPhotos('<?= $album['id'] ?>')">
-                                    <div class="container">
-                                        <img width="<?=ALBUM_WIDTH?>" height="<?ALBUM_HEIGHT?>" class="image" src="<?=$album['source']?>">
-                                        <p class="text">Selectionner</p>
-                                        <div class="album-name">'<?=$album['name']?>'</div>
-                                    </div>
-                                </li>
-                            <?php } ?>
-                        </ul>
-                    </div>
-                    <div class="photos"></div>
-                </div>
+                <div id="from_facebook_modal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Mes photos facebook</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="albums"><h6>Albums</h6>
+                                    <ul class="list-inline">
+                                        <?php foreach($albumsArray as $album) { ?>
+                                            <li onclick="displayPhotos('<?= $album['id'] ?>')">
+                                                <span    class="container">
+                                                    <img width="<?=ALBUM_WIDTH?>" height="<?=ALBUM_HEIGHT?>" class="image" src="<?=$album['source']?>">
+                                                    <p class="text">Selectionner</p>
+                                                    <div class="album-name"><?=$album['name']?></div>
+                                                </span>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
+                                <div class="photos"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
 
-                <div id="from_facebook" onclick="openDialog()">Photo Facebook</div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#from_facebook_modal">
+                    Photo de Facebook
+                </button>
 
-                <div id="from_computer"> Photo de mon ordinateur
-                    <p><label for="name">Message : </label><input type="text" name="message" placeholder="<?php echo $message; ?>" /></p>
-                    <div id="choose_file">
-                        <input type="file" name="fichier" id="fichier" /><br />
-                        Mon Ordinateur
-                    </div>
+                <div id="from_computer">
+                        <span class="btn btn-default btn-file">
+                        <input type="file" name="fichier" id="fichier" />
+                        Photo de mon ordinateur
+                        </span>
+                    <p><label for="name">Message : </label><input value="<?= $usrMsg ?>" id="user_message" type="text" name="message" placeholder="<?php echo $message; ?>" /></p>
                     <input type="hidden" name="MAX_FILE_SIZE" value="1048576000" />
                     <br />
                     <div id="photo_error"></div>
-                    <input type="submit" name="submit" value="Envoyer" />
+                    <input type="submit" name="submit" value="Valider" />
                 </div>
 
+                <input type="hidden" name="is_new_image" id="is_new_image">
                 <input type="hidden" name="photo_facebook_id" id="photo_facebook_id" />
                 <input type="hidden" name="photo_from" id="photo_from" />
-
+                <?php if ( isset($editParticipation) ) {
+                    ?> <input type="hidden" name="id_participation" id="id_participation" value="<?=$participationDataArray[0]['id_participation']?>" />
+                        <input type="hidden" name="edit_mode" id="edit_mode" value="<?=$editParticipation?>" />
+                <?php } ?>
             </form>
+
+            <div id="show_gallery"><a href="photo/gallery">Voir la galerie</a></div>
 
         </div>
 
-    </div>
-
 <?php } ?>
-    <?php }?>
 <?=$customJsLink?>

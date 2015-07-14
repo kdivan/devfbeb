@@ -1,17 +1,41 @@
 <?php $this->titre = "Facebook | Gallerie Photos"; $customJs='<script src="Contenu/js/getparticipationdetail.js"></script>'; $cpt = 0;?>
+
+<div id="top-gallery">
+    <div id="participer">
+    <?php
+    if($hasParticipate){
+        ?> <a href="photo/participation/<?=$participation['id']?>">Ma participation</a>
+    <?php
+    } else {
+        ?><a href="photo/participer">Participer</a>
+    <?php
+    }
+    ?>
+    </div>
+    <div>
+        <select>
+            <option></option>
+            <option></option>
+            <option></option>
+        </select>
+    </div>
+</div>
+
 <div id="gallery_photo">
-    <ul id="liste_photos">
+    <ul class="list-inline" id="liste_photos">
     <?php foreach($photosGalleryArray as $photo) { ?>
         <?php if($cpt == MAX_IMAGE_PER_LINE) { ?>
                 <br />
             <?php $cpt=0; } ?>
-            <li class="photo_participation" onclick="displayParticipationDetail('<?=$photo['id_participation']?>')">
+            <li class="photo_participation" >
+                <a href="photo/participation/<?=$photo['id_participation']?>">
                 <img src="<?= $photo['source'] ?>" width="100px" height="100px"/>
                 <figcaption>
                     <?= "TEST" ?>
                 </figcaption>
+                </a>
                 <!--On affiche dans cette div le bouton voter, le nombre de like et un message!-->
-                <div id="content"></div>
+                <div class="content"></div>
             </li>
     <?php $cpt++; } ?>
         <form>

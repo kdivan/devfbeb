@@ -2,6 +2,7 @@
 
 require_once 'Framework/Controleur.php';
 require_once 'Modele/FacebookFunctions.php';
+require_once 'Modele/Utilisateur.php';
 require_once 'Modele/Participation.php';
 require_once "Contenu/facebook/facebook-php-sdk-v4-4.0-dev/autoload.php";
 
@@ -18,6 +19,7 @@ class ControleurTest extends Controleur {
     private $session;
     private $redirectUrl;
     private $participation;
+    private $utilisateur;
 
     /**
      * Constructeur
@@ -29,6 +31,7 @@ class ControleurTest extends Controleur {
         FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
         $this->setSession($this->getFacebookSession());
         $this->fb = new FacebookFunctions($this->session);
+        $this->utilisateur = new Utilisateur();
     }
 
     /**
@@ -36,6 +39,17 @@ class ControleurTest extends Controleur {
      * @sendDataToView Array contenant les albums de l'utilisateur
      */
     public function index() {
+        $userArray = [];
+        $insertUserArray['facebook_id']     = "111111111111";
+        $insertUserArray['facebook_link']   = "https://www.facebook.com/app_scoped_user_id/834538663296175/";
+        $insertUserArray['nom']             = "Test";
+        $insertUserArray['prenom']          = "Test";
+        $insertUserArray['genre']           = "M";
+        $insertUserArray['localisation']    = "fr_FR";
+        $insertUserArray['email']           = "test@live.fr";
+        $lastInsertId = $this->utilisateur->insert(DB_PREFIX.'utilisateurs',$insertUserArray);
+        var_dump($lastInsertId);
+        exit;
         $albumPhotosArray = $this->fb->getAlbumPhotos('10153206206683972');
         $albumCoverArray  = $this->fb->getAlbumCoverPicture('10153206206683972');
         $coverPictureInfo = $this->fb->getPictureInfo('10153247566568972');
