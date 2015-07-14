@@ -83,7 +83,7 @@ class ControleurPhoto extends Controleur {
         }
         if (!$session) {
             echo "session generer vue";
-            $this->genererVue(array('redirectLink' => $redirectLink));
+            $this->genererVue(array('redirectLink' => $redirectLink),true,"index");
         }else{
             $this->fb = new FacebookFunctions($session);
         }

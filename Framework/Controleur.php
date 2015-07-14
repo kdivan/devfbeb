@@ -61,14 +61,18 @@ abstract class Controleur {
      * 
      * @param array $donneesVue Données nécessaires pour la génération de la vue
      */
-    protected function genererVue($donneesVue = array(),$withGabarit=true)
+    protected function genererVue($donneesVue = array(),$withGabarit=true, $action="")
     {
         // Détermination du nom du fichier vue à partir du nom du contrôleur actuel
         $classeControleur = get_class($this);
         $controleur = str_replace("Controleur", "", $classeControleur);
         
         // Instanciation et génération de la vueF
-        $vue = new Vue($this->action, $controleur);
+        if(strlen($action)>0){
+            $vue = new Vue($action, $controleur);
+        } else {
+            $vue = new Vue($this->action, $controleur);
+        }
         $vue->generer($donneesVue,$withGabarit);
     }
 
