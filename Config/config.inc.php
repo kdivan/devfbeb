@@ -52,7 +52,7 @@ define('FB_RIGHTS','public_profile,email,user_photos,publish_actions');
 /**
  * General App configuration
  */
-define('MAX_ELEM_PER_PAGE',8);
+define('MAX_ELEM_PER_PAGE',12);
 define('MAX_IMAGE_PER_LINE',4);
 define('DIALOG_WIDTH','');
 define('DIALOG_HEIGHT','');
