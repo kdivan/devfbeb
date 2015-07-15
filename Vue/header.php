@@ -2,8 +2,8 @@
 error_reporting(E_ALL);
 ini_set("error_display",1);
 $this->titre = "Facebook | Concours photo ";
-$this->js ='<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-            <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>';
+$this->js ='<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+            <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>';
 $cssLink = '<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
             <link rel="stylesheet" href="Contenu/css/style.css" />';
 ?>
