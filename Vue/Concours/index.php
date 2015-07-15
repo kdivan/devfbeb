@@ -1,1 +1,1 @@
-//afficher les resultats du concours
+<?php echo $redirectLink ;

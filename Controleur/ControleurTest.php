@@ -3,6 +3,7 @@
 require_once 'Framework/Controleur.php';
 require_once 'Modele/FacebookFunctions.php';
 require_once 'Modele/Utilisateur.php';
+require_once 'Modele/Concours.php';
 require_once 'Modele/Participation.php';
 require_once "Contenu/facebook/facebook-php-sdk-v4-4.0-dev/autoload.php";
 
@@ -20,6 +21,7 @@ class ControleurTest extends Controleur {
     private $redirectUrl;
     private $participation;
     private $utilisateur;
+    private $concours;
 
     /**
      * Constructeur
@@ -32,6 +34,7 @@ class ControleurTest extends Controleur {
         $this->setSession($this->getFacebookSession());
         $this->fb = new FacebookFunctions($this->session);
         $this->utilisateur = new Utilisateur();
+        $this->concours = new Concours();
     }
 
     /**
@@ -39,8 +42,19 @@ class ControleurTest extends Controleur {
      * @sendDataToView Array contenant les albums de l'utilisateur
      */
     public function index() {
+        $allParticipation = $this->participation->getParticpationFromCurrentConcours();
+        foreach($allParticipation as $part){
+            $fbPhotoInfo            = $this->fb->getPictureInfo($part['facebook_photo_id'],'http://devfbeb1.herokuapp.com/photo/participation/'.$part['id_participation']);
+            $participationData[]    = array_merge($part,$fbPhotoInfo);
+        }
+        //var_dump($this->concours->getConcoursPrize());
+        echo "<pre>";
+        print_r($this->array_sort($participationData,'like_count',SORT_DESC,3));
+        var_dump($this->concours->getConcoursPrize());
+        //$pictInfo = $this->fb->getPictureInfo("10153408405008972",'http://devfbeb1.herokuapp.com/photo/participation/30');
+        //var_dump($pictInfo);
         $userArray = [];
-        $insertUserArray['facebook_id']     = "111111111111";
+        /*$insertUserArray['facebook_id']     = "111111111111";
         $insertUserArray['facebook_link']   = "https://www.facebook.com/app_scoped_user_id/834538663296175/";
         $insertUserArray['nom']             = "Test";
         $insertUserArray['prenom']          = "Test";
@@ -48,7 +62,7 @@ class ControleurTest extends Controleur {
         $insertUserArray['localisation']    = "fr_FR";
         $insertUserArray['email']           = "test@live.fr";
         $lastInsertId = $this->utilisateur->insert(DB_PREFIX.'utilisateurs',$insertUserArray);
-        var_dump($lastInsertId);
+        var_dump($lastInsertId);*/
         exit;
         $albumPhotosArray = $this->fb->getAlbumPhotos('10153206206683972');
         $albumCoverArray  = $this->fb->getAlbumCoverPicture('10153206206683972');

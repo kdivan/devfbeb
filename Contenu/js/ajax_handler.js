@@ -171,3 +171,30 @@ $("#form").submit(function( event ){
         return false;
     }
 });
+
+$("#filter").change(function() {
+    console.log($("#filter"));
+    console.log($("#filter").val());
+    refreshGallery();
+    console.log("test");
+});
+
+function refreshGallery(){
+    var selectedFilter = $("#filter").val();
+    $.ajax({
+        type : 'POST',
+        url: 'photo/gallery',
+        data: {
+            'filter'   : selectedFilter
+        },
+        success: function(data) {
+            $("#contenu").html("");
+            $("#contenu").html(data);
+        },
+        error: function(xhr, status, error) {
+            //document.getElementById("errorLog").innerHTML="Erreur - Impossible d'enregistrer. Contactez l'admin du site.";
+            console.log(xhr);
+            console.log(status);
+        }
+    });
+}

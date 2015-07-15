@@ -86,4 +86,45 @@ abstract class Controleur {
         die();
     }
 
+    /**
+     * @param $array
+     * @param $on
+     * @param int $order
+     * @return array
+     */
+    public function array_sort($array, $on, $order=SORT_ASC, $slice="")
+    {
+        $new_array = array();
+        $sortable_array = array();
+
+        if (count($array) > 0) {
+            foreach ($array as $k => $v) {
+                if (is_array($v)) {
+                    foreach ($v as $k2 => $v2) {
+                        if ($k2 == $on) {
+                            $sortable_array[$k] = $v2;
+                        }
+                    }
+                } else {
+                    $sortable_array[$k] = $v;
+                }
+            }
+            switch ($order) {
+                case SORT_ASC:
+                    asort($sortable_array);
+                    break;
+                case SORT_DESC:
+                    arsort($sortable_array);
+                    break;
+            }
+            foreach ($sortable_array as $k => $v) {
+                $new_array[$k] = $array[$k];
+            }
+        }
+        if(strlen($slice)>0){
+            return array_slice($new_array,0,$slice);
+        }
+        return $new_array;
+    }
+
 }

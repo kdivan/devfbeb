@@ -109,20 +109,34 @@ class FacebookFunctions
     }
 
     /**
-     * @param $photoId
-     * @return mixed
+     * @param $fbPhotoId
+     * @param string $url
+     * @return array
      * @throws \Facebook\FacebookRequestException
      */
-    public function getPictureInfo($photoId){
+    public function getPictureInfo($fbPhotoId,$url=""){
         $token = (String)$this->session->getAccessToken();
         $_SESSION['fb_token'] = $token;
         //prepare
-        $request = new FacebookRequest($this->session, 'GET', '/'.$photoId.'/');
+        $request = new FacebookRequest($this->session, 'GET', '/'.$fbPhotoId.'/');
         //execute
         $response = $request->execute();
         //transform la data graphObject
         $pictureInfo = $response->getGraphObject();
-        return $pictureInfo->asArray();
+        $pictureInfoArray = $pictureInfo->asArray();
+        /*if( strlen($url)> 0) {
+            $pictureFbStats = $this->getFbStats($url);
+            if ($pictureFbStats) {
+                // utile pour le tri par nb like
+                $statsArray['total_count']      = $pictureFbStats[0]->total_count;
+                $statsArray['like_count']       = $pictureFbStats[0]->like_count;
+                $statsArray['comment_count']    = $pictureFbStats[0]->comment_count;
+                $statsArray['share_count']      = $pictureFbStats[0]->share_count;
+                $statsArray['click_count']      = $pictureFbStats[0]->click_count;
+                return array_merge($pictureInfoArray, $statsArray);
+            }
+        }*/
+        return $pictureInfoArray;
     }
 
     /**
@@ -156,6 +170,17 @@ class FacebookFunctions
             }
         }
         return true;
+    }
+
+    /**
+     * @param $url
+     * @return mixed
+     */
+    public function getFbStats($url){
+        $query = "select total_count,like_count,comment_count,share_count,click_count from link_stat where url='{$url}'";
+        $call = "https://api.facebook.com/method/fql.query?query=" . rawurlencode($query) . "&format=json";
+        $output = file_get_contents($call);
+        return json_decode($output);
     }
 
 }

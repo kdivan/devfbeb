@@ -1,6 +1,8 @@
 <?php
 
 require_once 'Framework/Modele.php';
+require_once 'Modele/Participation.php';
+
 
 /**
  * Class Concours
@@ -26,14 +28,33 @@ class Concours extends Modele {
      */
     public function getCurrentConcoursInfo() {
         $sql = "SELECT * from ".DB_PREFIX. "concours
+                    WHERE actif=? ";
+        $concoursInfo = $this->executerRequete($sql, array('1'));
+        if ($concoursInfo->rowCount() > 0){
+            return $concoursInfo->fetch();  // Accès à la première ligne de résultat
+        }
+    }
+
+    public function isCurrentConcoursFinished() {
+        $sql = "SELECT * from ".DB_PREFIX. "concours
                     WHERE actif=?
                     AND date_fin > NOW()";
         $concoursInfo = $this->executerRequete($sql, array('1'));
         if ($concoursInfo->rowCount() > 0){
-            return $concoursInfo->fetch();  // Accès à la première ligne de résultat
-        }else{
-            throw new Exception ("Le concours est terminé");;
+            return false;  // Accès à la première ligne de résultat
         }
+        //concours finit
+        return true;
+    }
+
+    /**
+     *
+     */
+    public function getConcoursPrize(){
+        $sql = "SELECT * from ".DB_PREFIX. "concours_prize
+                    WHERE fk_concours_id = ? AND actif=? ORDER BY prize_position ASC";
+        $concoursPrize = $this->executerRequete( $sql, array($this->idConcours,'1') );
+        return $concoursPrize->fetchAll();
     }
 
     /**

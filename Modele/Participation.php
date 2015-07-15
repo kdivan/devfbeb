@@ -28,7 +28,11 @@ class Participation extends Modele {
         if( $lastInsertId  ){
             $sql = "SELECT max(id) as max_id FROM ".DB_PREFIX."participation where actif=1";
             $res = $this->executerRequete($sql)->fetch();
-            return $res['max_id'];
+            if( $res ){
+                return $res['max_id'];
+            } else {
+                throw new Exception("La participation n'a pas été correctement insérer".$lastInsertId);
+            }
         }else{
             throw new Exception("La participation n'a pas été correctement insérer".$lastInsertId);
         }
@@ -129,17 +133,34 @@ class Participation extends Modele {
      * @param $limitMax
      * @return array
      */
-    public function getParticipationWithLimit($limitMin, $limitMax){
+    public function getParticipationWithLimit($limitMin, $limitMax,$selectedFilter="more_recent"){
+        if( strcmp($selectedFilter,'more_recent')==0 ){
+            $filter = "date_participation ASC";
+        } elseif (strcmp($selectedFilter,'less_recent')==0 ){
+            $filter = "date_participation DESC";
+        }
         $sql = "SELECT ". DB_PREFIX ."participation.*,id as id_participation
                     FROM ". DB_PREFIX ."participation
                         WHERE actif = ?
                         AND fk_concours_id = ?
-                        ORDER BY date_participation
+                        ORDER BY ".$filter."
                         LIMIT ".$limitMax." offset ".$limitMin;
         $participationList = $this->executerRequete( $sql,array("1",$this->concours->getIdConcours()) );
         $participationListArray = $participationList->fetchAll();
         $participationList->closeCursor();
         return $participationListArray;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllParticipationCurrentConcours(){
+        $allParticipation = $this->getParticpationFromCurrentConcours();
+        foreach($allParticipation as $part){
+            $fbPhotoInfo            = $this->fb->getPictureInfo($part['facebook_photo_id'],SERVER_NAME.'photo/participation/'.$part['id_participation']);
+            $participationData[]    = array_merge($part,$fbPhotoInfo);
+        }
+        return $participationData;
     }
 
 }

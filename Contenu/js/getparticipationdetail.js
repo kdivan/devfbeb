@@ -58,6 +58,7 @@ function loadMoreData(){
     limitMax    = elementLoad;
     console.log(limitMin);
     console.log(limitMax);
+    var selectedFilter = $("#filter").val();
     /*if(isNaN(limitMax) || isNaN(limitMin)){
         alert('isnan');
     }*/
@@ -67,7 +68,8 @@ function loadMoreData(){
             url: 'photo/getmoreparticipation',
             data: {
                 'limitMin' : limitMin,
-                'limitMax' : limitMax
+                'limitMax' : limitMax,
+                'filter'   : selectedFilter
             },
             success: function(data) {
                 //  console.log(data);
@@ -105,3 +107,26 @@ $(document)
         console.log("ajax stop");
         $('#loadingDiv').hide();
     });
+
+$(function() {
+// OPACITY OF BUTTON SET TO 0%
+    $(".roll").css("opacity","0");
+
+// ON MOUSE OVER
+    $(".roll").hover(function () {
+
+// SET OPACITY TO 70%
+            $(this).stop().animate({
+                opacity: .7
+            }, "slow");
+        },
+
+// ON MOUSE OUT
+        function () {
+
+// SET OPACITY BACK TO 50%
+            $(this).stop().animate({
+                opacity: 0
+            }, "slow");
+        });
+});

@@ -23,42 +23,46 @@ if( isset( $redirectLink ) ){
         var_dump($participationDataArray);
     } ?>
 
-        <div id="photo-preview-container" style="float: left; margin-right: 200px;">
+    <section class="zone-image" >
+        <div id="photo-preview-container" >
             <img id="photo_prev" src="<?= $imgSrc ?>" alt="Preview de votre photo (600px x 600px maximum)" width="300px" height="300px" />
         </div>
+    </section>
 
-        <div id="photo-choice-container" style="float: right;width: 200px;">
-            <form id="form" method="post" action="photo/participer" enctype="multipart/form-data">
 
-                <div id="from_facebook_modal" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Mes photos facebook</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="albums"><h6>Albums</h6>
-                                    <ul class="list-inline">
-                                        <?php foreach($albumsArray as $album) { ?>
-                                            <li onclick="displayPhotos('<?= $album['id'] ?>')">
+    <div id="from_facebook_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Mes photos facebook</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="albums"><h6>Albums</h6>
+                        <ul class="list-inline">
+                            <?php foreach($albumsArray as $album) { ?>
+                                <li onclick="displayPhotos('<?= $album['id'] ?>')">
                                                 <span    class="container">
                                                     <img width="<?=ALBUM_WIDTH?>" height="<?=ALBUM_HEIGHT?>" class="image" src="<?=$album['source']?>">
                                                     <p class="text">Selectionner</p>
                                                     <div class="album-name"><?=$album['name']?></div>
                                                 </span>
-                                            </li>
-                                        <?php } ?>
-                                    </ul>
-                                </div>
-                                <div class="photos"></div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                            </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                    <div class="photos"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <aside class="zone-cta">
+        <div id="photo-choice-container" >
+            <form id="form" method="post" action="photo/participer" enctype="multipart/form-data">
 
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#from_facebook_modal">
@@ -89,6 +93,6 @@ if( isset( $redirectLink ) ){
             <div id="show_gallery"><a href="photo/gallery">Voir la galerie</a></div>
 
         </div>
-
+    </aside>
 <?php } ?>
 <?=$customJsLink?>

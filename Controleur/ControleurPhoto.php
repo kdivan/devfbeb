@@ -108,7 +108,7 @@ class ControleurPhoto extends Controleur {
                 }
                 //check if user has already participate in the competition
                 $participation = $this->participation->hasUserParticipateCurrentConcours($localUser['id']);
-                //$participation = false;
+                $participation = false;
                 if ($participation) {
                     //si le paramètre id existe => mode modification
                     // mettre l'image actuel en preview, pré remplir le message
@@ -123,7 +123,7 @@ class ControleurPhoto extends Controleur {
                             $fbPhotoInfo        = $this->fb->getPictureInfo($participation['facebook_photo_id']);
                             $participationDataArray[]  = array_merge($participation,$fbPhotoInfo);
                             $this->genererVue(array('editParticipation' => 'true', 'participation' => $participation,
-                                                'albumsArray' => $albumsArray, 'participationDataArray'=> $participationDataArray));
+                                                'albumsArray' => $albumsArray, 'participationDataArray'=> $participationDataArray), false);
                         } else {
                             $this->genererVue(array('notAllowed' => true) ) ;
                         }
@@ -202,7 +202,7 @@ class ControleurPhoto extends Controleur {
         if ( $this->requete->existeParametre('id') ) {
             $participationId    = $this->requete->getParametre('id');
             $participation      = $this->participation->findBy( array("id"=>$participationId) );
-            $fbPhotoInfo        = $this->fb->getPictureInfo($participation['facebook_photo_id']);
+            $fbPhotoInfo        = $this->fb->getPictureInfo($participation['facebook_photo_id'],SERVER_NAME.'photo/participation/'.$participation['id_participation']);
             $participationDataArray[]  = array_merge($participation,$fbPhotoInfo);
             $this->genererVue( array('participationDataArray' => $participationDataArray[0]) );
         }
@@ -218,7 +218,7 @@ class ControleurPhoto extends Controleur {
         if ( $this->requete->existeParametre('participationId') ) {
             $participationId    = $this->requete->getParametre('participationId');
             $participation      = $this->participation->findBy( array("id"=>$participationId) );
-            $fbPhotoInfo        = $this->fb->getPictureInfo($participation['facebook_photo_id']);
+            $fbPhotoInfo        = $this->fb->getPictureInfo($participation['facebook_photo_id'],SERVER_NAME.'photo/participation/'.$participation['id_participation']);
             $participationDataArray[]  = array_merge($participation,$fbPhotoInfo);
             $this->genererVue( array('participationDataArray' => $participationDataArray[0]),false );
         }
@@ -229,14 +229,19 @@ class ControleurPhoto extends Controleur {
      */
     public function getmoreparticipation(){
         $this->init();
+        if( $this->requete->existeParametre('filter') ) {
+            $selectedFilter = $this->requete->getParametre('filter');
+        } else {
+            $selectedFilter = "more_recent";
+        }
         $participationData      = [];
         $limitMin               = $this->requete->getParametre('limitMin');
         $limitMax               = $this->requete->getParametre('limitMax');
-        $participationList      = $this->participation->getParticipationWithLimit($limitMin,$limitMax);
+        $participationList      = $this->participation->getParticipationWithLimit($limitMin,$limitMax,$selectedFilter);
         $nbElem                 = $limitMax - $limitMin;
         $class                  = (count($participationList)<=$nbElem)?"disable":"enable";
         foreach($participationList as $participation){
-            $fbPhotoInfo            = $this->fb->getPictureInfo($participation['facebook_photo_id']);
+            $fbPhotoInfo            = $this->fb->getPictureInfo($participation['facebook_photo_id'],SERVER_NAME.'photo/participation/'.$participation['id_participation']);
             $participationData[]    = array_merge($participation,$fbPhotoInfo);
         }
         $this->genererVue( array('participationDataArray' => $participationData, 'class'=>$class, 'elementLoad'=> count($participationList) ),false );
@@ -254,6 +259,7 @@ class ControleurPhoto extends Controleur {
     public function participer( ){
         //me/permission permettent de recupérer les permissions données par l'utilisateur
         $errorMessage = "";
+        $editMode = null;
         try{
             if ( $this->session ) {
                 if( $this->requete->existeParametre('submit') ) {
@@ -289,6 +295,7 @@ class ControleurPhoto extends Controleur {
                                     $dataToInsert['fk_concours_id']     = $this->concours->getIdConcours();
                                     $dataToInsert['message']            = $userMessage;
                                     $dataToInsert['actif']              = 1;
+                                    $dataToInsert['date_participation'] = date('Y-m-d H:i:s');
                                     $lastId  = $this->participation->insertParticipation($dataToInsert);
 
                                     //si modification de l'image
@@ -314,11 +321,12 @@ class ControleurPhoto extends Controleur {
             }
         }catch (Exception $e){
             $errorMessage = $e->getMessage();
+            //$errorMessage  = "test";
         }
         //$this->genererVue(array("message"=>$errorMessage,'param'=>$this->requete->getParametre('edit_mode'),'return'=>$lastId));
         //Genere la vue en fonction des evenements
         if( strlen($errorMessage) > 0 ){
-            $this->executerAction("index",$errorMessage);
+            $this->genererVue(array('errorMessage'=>$errorMessage),true,"index");
         }else{
             $this->executerAction("confirmation",array( 'lastId'=>$lastId, 'editMode'=>$editMode ));
         }
@@ -336,12 +344,25 @@ class ControleurPhoto extends Controleur {
      */
     public function gallery() {
         $this->init();
-        //TODO : getvote pour chaque photo
+        $filterArray = [];
+        $filterArray[0]['filter_val'] = "more_recent";
+        $filterArray[0]['filter_string'] = "Les plus récentes";
+        $filterArray[1]['filter_val'] = "less_recent";
+        $filterArray[1]['filter_string'] = "Les moins récentes";
+        $filterArray[2]['filter_val'] = "more_vote";
+        $filterArray[2]['filter_string'] = "Les plus votées";
+        if( $this->requete->existeParametre('filter') ) {
+            $withGabarit = false;
+            $selectedFilter = $this->requete->getParametre('filter');
+        } else {
+            $withGabarit = true;
+            $selectedFilter = "more_recent";
+        }
         $cpt                = 0;
         $photosDataArray    = [];
         $limitMax           = MAX_IMAGE_PER_LINE*2;
         //+1 pour vérifier qu'il y a au moins un element en plus pour charger la suite
-        $photosGalleryArray = $this->participation->getParticipationWithLimit(0,$limitMax+1);
+        $photosGalleryArray = $this->participation->getParticipationWithLimit(0,$limitMax+1, $selectedFilter);
         $class              = (count($photosGalleryArray)<$limitMax+1)?"disable":"enable";
         if (count($photosGalleryArray)<$limitMax+1){
             $class          = "disable";
@@ -358,12 +379,13 @@ class ControleurPhoto extends Controleur {
         foreach($photosGalleryArray as $photos){
             $cpt++;
             if($cpt<=$limitMax) {
-                $fbPhotoInfo = $this->fb->getPictureInfo($photos['facebook_photo_id']);
+                $fbPhotoInfo = $this->fb->getPictureInfo($photos['facebook_photo_id'],SERVER_NAME.'photo/participation/'.$photos['id_participation']);
                 $photosDataArray[] = array_merge($photos, $fbPhotoInfo);
             }
         }
         $this->genererVue( array( 'photosGalleryArray'=>$photosDataArray,'class'=>$class,'elementLoad'=>$elementLoad,
-                                    'hasParticipate' => $hasParticipate, 'participation'=>$participation ) ) ;
+                                    'hasParticipate' => $hasParticipate, 'participation'=>$participation, 'filterArray'=>$filterArray,
+                                    'selectedFilter' => $selectedFilter ),$withGabarit ) ;
     }
 
 

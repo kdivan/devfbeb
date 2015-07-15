@@ -49,7 +49,167 @@ h1 {
 #txtCommentaire {
     width: 50%;
 }*/
+/*
+-----------------------------------------------------------------------------------------------------------------------------
+																RESET CSS
+-----------------------------------------------------------------------------------------------------------------------------
+*/
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
+ol,ul{list-style:none;margin:0px;padding:0px;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+table{border-collapse:collapse;border-spacing:0;}
+/* start editing from here */
+a{text-decoration:none;}
+.txt-rt{text-align:right;}/* text align right */
+.txt-lt{text-align:left;}/* text align left */
+.txt-center{text-align:center;}/* text align center */
+.float-rt{float:right;}/* float right */
+.float-lt{float:left;}/* float left */
+.clear{clear:both;}/* clear float */
+.pos-relative{position:relative;}/* Position Relative */
+.pos-absolute{position:absolute;}/* Position Absolute */
+.vertical-base{	vertical-align:baseline;}/* vertical align baseline */
+.vertical-top{	vertical-align:top;}/* vertical align top */
+nav.vertical ul li{	display:block;}/* vertical menu */
+nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
+img{max-width:100%;}
 
+
+/*
+-----------------------------------------------------------------------------------------------------------------------------
+																GENERAL
+-----------------------------------------------------------------------------------------------------------------------------
+*/
+
+body {
+    font-family: 'Open Sans', sans-serif;
+
+    transition: 0.1s all;
+    -webkit-transition: 0.1s all;
+    -moz-transition: 0.1s all;
+    -o-transition: 0.1s all;
+    width: 810px;
+}
+
+/* ------ HEADER ------ */
+header {
+    background-color:#3498db;
+}
+
+/* ------ CORPS ------ */
+section, aside {
+    padding-top: 2em;
+}
+
+h1 {
+    text-align: center;
+    font-size: 3.3em;
+    color: #fff;
+    font-weight: 400;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+h2 {
+    font-size: 1.5em;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    color: #7f8c8d;
+    padding: 0.3em;
+}
+
+p {
+    text-align: center;
+    color: #7f8c8d;
+    line-height: 2em;
+}
+
+img {
+    position: relative;
+    display: block;
+}
+
+/* ------ FOOTER ------ */
+footer {
+    background-color:#3498db;
+    text-align: center;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    bottom: 0;
+    position: relative;
+    margin-top : 400px;
+}
+footer li {
+    list-style-type: none;
+    display: inline;
+    padding-right: 2em;
+}
+footer li a {
+    color: #fff;
+}
+
+
+/*
+-----------------------------------------------------------------------------------------------------------------------------
+															HOME PAGE
+-----------------------------------------------------------------------------------------------------------------------------
+*/
+
+/* ------ CTA ------ */
+.cta {
+    position: relative;
+    width: 60%;
+    margin: auto;
+    margin-bottom: 3em;
+}
+.cta a {
+    float: left;
+    width: 40%;
+    background-color: #565a5e;
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 1em;
+    margin-right:1em;
+}
+
+
+/*
+-----------------------------------------------------------------------------------------------------------------------------
+															PAGE UPLAOD
+-----------------------------------------------------------------------------------------------------------------------------
+*/
+
+.zone-image {
+    position: relative;
+    float: left;
+    margin-left: 60px;
+    margin-bottom: 30px;
+}
+
+.zone-cta {
+    position: relative;
+    float: left;
+    margin-left: 20px;
+}
+.zone-cta span {
+    background-color: #565a5e;
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 1em;
+}
+
+
+
+/*
+-----------------------------------------------------------------------------------------------------------------------------
+															PAGE MERCI
+-----------------------------------------------------------------------------------------------------------------------------
+*/
 .container
 {
     height:150px;
@@ -144,4 +304,15 @@ input#fichier {
     display: inline-block;
     padding-right: 5px;
     padding-left: 5px;
+}
+
+span.roll {
+    background:url('../img/mag.png') center center no-repeat #000;
+    height: 100px;
+    position: absolute;
+    width: 100px;
+    z-index: 10;
+    -webkit-box-shadow: 0px 0px 4px #000;
+    -moz-box-shadow: 0px 0px 4px  #000;
+    box-shadow: 0px 0px 4px  #000;
 }
