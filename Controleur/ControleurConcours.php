@@ -59,11 +59,11 @@ class ControleurConcours extends Controleur{
             $this->fb = new FacebookFunctions($session);
         }
         //controle si concours non fini
-        if( !$this->concours->isCurrentConcoursFinished() ){
+        /*if( !$this->concours->isCurrentConcoursFinished() ){
             $this->redirect(SERVER_NAME);
-        } else {
+        } else {*/
             $this->executerAction("resultat");
-        }
+        //}
     }
 
     /**
@@ -72,13 +72,13 @@ class ControleurConcours extends Controleur{
     public function resultat(){
         $participation = new Participation();
         $allParticipation = $participation->getParticpationFromCurrentConcours();
-        var_dump($allParticipation);
+        //var_dump($allParticipation);
         foreach($allParticipation as $part){
             $fbPhotoInfo            = $this->fb->getPictureInfo($part['facebook_photo_id'],'http://devfbeb1.herokuapp.com/photo/participation/'.$part['id_participation']);
             $participationData[]    = array_merge($part,$fbPhotoInfo);
         }
-        /*$winnersArray = $this->array_sort($participationData,'like_count',SORT_DESC,3);
+        $winnersArray = $this->array_sort($participationData,'like_count',SORT_DESC,3);
         $concoursPrize = $this->concours->getConcoursPrize();
-        $this->genererVue(array('winnersArray'=>$winnersArray,'concoursPrize'=>$concoursPrize));*/
+        $this->genererVue(array('winnersArray'=>$winnersArray,'concoursPrize'=>$concoursPrize));
     }
 }
