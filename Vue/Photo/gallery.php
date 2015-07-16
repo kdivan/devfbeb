@@ -1,8 +1,8 @@
 <?php $this->titre = "Facebook | Gallerie Photos"; $customJs='<script src="Contenu/js/getparticipationdetail.js"></script><script src="Contenu/js/ajax_handler.js"></script>'; $cpt = 0;?>
 
-<div id="top-gallery">
-    <div id="participer">
-    <?php
+
+    <section id="participer">
+      <?php
     if($hasParticipate){
         ?> <a href="photo/participation/<?=$participation['id']?>">Ma participation</a>
     <?php
@@ -11,8 +11,9 @@
     <?php
     }
     ?>
-    </div>
-    <div>
+    </section>
+
+    <section id="trier">
         <select id="filter" name="filter">
             <?php foreach( $filterArray as $filter ) {
                 $selected = "";
@@ -23,11 +24,10 @@
                 <option value="<?=$filter['filter_val']?>" <?=$selected?>><?=$filter['filter_string']?></option>
             <?php } ?>
         </select>
-    </div>
-</div>
+    </section>
 
-<div id="gallery_photo">
-    <ul class="list-inline" id="liste_photos">
+<section id="galerie">
+    <ul id="liste_photos">
     <?php foreach($photosGalleryArray as $photo) { ?>
         <?php if($cpt == MAX_IMAGE_PER_LINE) { ?>
                 <br />
@@ -35,8 +35,8 @@
             <li class="photo_participation" >
                 <a href="photo/participation/<?=$photo['id_participation']?>">
                     <span class="roll" ></span>
-                    <img src="<?= $photo['source'] ?>" width="100px" height="100px"/>
-                    <div><p>Voter   <?=(isset($photo['stats']->like_count)) ? $photo['stats']->like_count : 0?></p></div>
+                    <img src="<?= $photo['source'] ?>" width="150px" height="100px"/>
+                    <a href="">Voter   <?=(isset($photo['stats']->like_count)) ? $photo['stats']->like_count : 0?></a>
                 </a>
                 <!--On affiche dans cette div le bouton voter, le nombre de like et un message!-->
                 <div class="content"></div>
@@ -56,5 +56,8 @@
             <img src="Contenu/img/facebook-loader.gif" alt="Chargement ..."/>
         </div>
     </div>
-</div>
+</section>
+
+    <div class="clear"></div>
+
 <?=$customJs?>

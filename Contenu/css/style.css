@@ -76,7 +76,6 @@ nav.vertical ul li{	display:block;}/* vertical menu */
 nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 img{max-width:100%;}
 
-
 /*
 -----------------------------------------------------------------------------------------------------------------------------
 																GENERAL
@@ -96,6 +95,14 @@ body {
 /* ------ HEADER ------ */
 header {
     background-color:#3498db;
+}
+header h1 {
+    margin-right: 290px;
+}
+header img {
+    float: left;
+    margin-left:314px;
+    padding-top: 2em;
 }
 
 /* ------ CORPS ------ */
@@ -132,6 +139,18 @@ img {
     display: block;
 }
 
+
+#body img {
+    float: left;
+    margin-left:280px;
+    margin-top: 8px;
+}
+
+#body h2 {
+    margin-right: 230px;
+}
+
+
 /* ------ FOOTER ------ */
 footer {
     background-color:#3498db;
@@ -146,8 +165,24 @@ footer li {
     display: inline;
     padding-right: 2em;
 }
+
+footer li:first-child {
+    margin-left:254px;
+}
+
+.facebook, .twitter, .instagram {
+    float: right;
+    margin-left:4px;
+}
+.facebook {
+    margin-right: 255px;
+}
+
 footer li a {
     color: #fff;
+}
+.souligne {
+    border-bottom: 1px solid #ffffff;
 }
 
 
@@ -157,12 +192,12 @@ footer li a {
 -----------------------------------------------------------------------------------------------------------------------------
 */
 
+
 /* ------ CTA ------ */
 .cta {
     position: relative;
     width: 60%;
     margin: auto;
-    margin-bottom: 3em;
 }
 .cta a {
     float: left;
@@ -176,83 +211,304 @@ footer li a {
 }
 
 
+.homespace {
+    margin-bottom: 100px;
+}
+
+
 /*
 -----------------------------------------------------------------------------------------------------------------------------
 															PAGE UPLAOD
 -----------------------------------------------------------------------------------------------------------------------------
 */
 
+#upload img {
+    float: left;
+    margin-left:240px;
+    margin-top: 8px;
+}
+
+#upload h2 {
+    margin-right: 200px;
+}
+
 .zone-image {
     position: relative;
     float: left;
-    margin-left: 60px;
+    width: 400px;
+    margin-left: 30px;
     margin-bottom: 30px;
 }
 
 .zone-cta {
+    float: right;
+    margin-top: 35px;
+    margin-right: 120px;
+    width: 200px;
+}
+.zone-cta a {
     position: relative;
     float: left;
-    margin-left: 20px;
-}
-.zone-cta span {
-    background-color: #565a5e;
+    width: 100%;
     color: #ffffff;
     text-align: center;
     text-transform: uppercase;
     padding: 1em;
+    margin-bottom: 25px;
 }
 
 
+#choose_file,#from_facebook,#valid-button, #show_gallery {
+    position: relative;
+    float: left;
+    width: 100%;
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 1em;
+    margin-bottom: 25px;
+}
+
+.cta-photo {
+    background-color: #565a5e;
+}
+.cta-valider  {
+    background-color: #7f8c8d;
+}
+.cta-galerie {
+    background-color: #3498db;
+}
+
+
+/*
+-----------------------------------------------------------------------------------------------------------------------------
+															PAGE GALERIE
+-----------------------------------------------------------------------------------------------------------------------------
+*/
+
+
+#participer {
+    position: relative;
+    float: left;
+    width: 50%;
+    margin:auto;
+}
+#participer a {
+    float: left;
+    width: 50%;
+    padding: 1em;
+    margin-left:30px;
+    background-color: #565a5e;
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#trier {
+    position: relative;
+    float: left;
+    width: 50%;
+}
+
+#trier select {
+    width: 60%;
+    height: 55px;
+    float: right;
+    margin-right: 30px;
+    background-color: #f0f0f0;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+#galerie {
+    position: relative;
+    float: left;
+    width: 752px;
+    margin: 0px 30px 50px 30px;
+}
+
+.item-galerie {
+    float: left;
+    position: relative;
+    width: 170px;
+    margin-right: 20px;
+}
+
+.item-galerie:last-child {
+    margin-right: 0px;
+}
+
+
+#galerie li {
+    float: left;
+    display: inline-block;
+    list-style-type: none;
+    width: 140px;
+    margin-right: 25px;
+}
+
+.list-inline li {
+    display: inline-block;
+    list-style-type: none;
+    margin-right: 25px;
+
+}
+
+#galerie li:last-child {
+    margin-right: 0px;
+    margin-bottom: 20px;
+}
+
+#galerie img {
+    display: block;
+    border: 0;
+}
+
+#galerie a {
+    float: left;
+    width: 125px;
+    margin-top: 10px;
+    padding: 4px;
+    background-color: #565a5e;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 13px;
+}
 
 /*
 -----------------------------------------------------------------------------------------------------------------------------
 															PAGE MERCI
 -----------------------------------------------------------------------------------------------------------------------------
 */
-.container
-{
-    height:150px;
-    width:150px;
-    position:relative;
-}
-.text
-{
-    z-index:50;
-    position:absolute;
-    left:25px;
-    top:50px;
-    background: none repeat scroll 0 0 #000;
-    border: 1px solid #708db2;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 12px;
-    font-weight: normal;
-    margin-top: 35px;
-    opacity: 0.8;
-    padding: 3px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: none;
-}
 
-div#choose-local-file {
-    /* IMPORTANT STUFF */
-    overflow: hidden;
+/* ------ CTA ------ */
+.cta-merci {
     position: relative;
-    cursor:   pointer;
-
-    /* SOME CUSTOM STYLING */
-    width:  200px;
-    height: 50px;
+    width: 90%;
+    margin: auto;
+}
+.cta-merci a {
+    float: left;
+    width: 25%;
+    background-color: #565a5e;
+    color: #ffffff;
     text-align: center;
-    border: 1px solid green;
-    font-weight: bold
-background: red;
+    text-transform: uppercase;
+    padding: 1em;
+    margin-right:1.5em;
+    margin-bottom: 3em;
 }
 
-div#choose-local-file:hover {
-    background: green;
+
+/*
+-----------------------------------------------------------------------------------------------------------------------------
+															PAGE PODIUM
+-----------------------------------------------------------------------------------------------------------------------------
+*/
+
+
+#resultat img {
+    float: left;
+    margin-left:210px;
+    margin-top: 8px;
 }
+
+#resultat h2 {
+    margin-right: 170px;
+}
+
+
+#podium {
+    width: 100%;
+    height: 565px;
+    background-image: url('../img/podium.jpg');
+    background-repeat:no-repeat;
+    padding: 0;
+    margin-top: 50px;
+}
+.podium-title {
+    background-color: #7f8c8d;
+    color:#ffffff;
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.podium-title span {
+    margin-right: 314px;
+}
+.podium-title img {
+    float: left;
+    margin-left:314px;
+}
+
+.bloc-prix {
+    width: 100%;
+    height: 40px;
+    background-color: #818e8f;
+}
+.prix-title {
+    color: #ffffff;
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 12px;
+    font-weight: bold;
+}
+
+.premier-prix {
+    width: 231px;
+    height: 381px;
+    background-color: #ffffff;
+    float: left;
+    position: relative;
+    margin-left:30px;
+    margin-top:70px;
+}
+
+.second-prix {
+    width: 231px;
+    height: 312px;
+    background-color: #ffffff;
+    float: left;
+    position: relative;
+    margin-left:30px;
+    margin-top:138px;
+}
+
+.troisieme-prix {
+    width: 231px;
+    height: 284px;
+    background-color: #ffffff;
+    float: left;
+    position: relative;
+    margin-left:30px;
+    margin-top:166px;
+}
+
+.bloc-prix img {
+    margin-top: 20px;
+    margin-left: 23px;
+}
+
+.item-prix {
+    margin-left:66px;
+    position: absolute;
+}
+.item-premier {
+    margin-top: 310px;
+}
+.item-second {
+    margin-top: 240px;
+}
+.item-troisieme {
+    margin-top: 214px;
+}
+
+
+
+
+
+
+/*----------------*/
 
 input#fichier {
     position: absolute;
@@ -309,7 +565,7 @@ span.roll {
     background:url('../img/mag.png') center center no-repeat #000;
     height: 100px;
     position: absolute;
-    width: 100px;
+    width: 125px;
     z-index: 10;
     -webkit-box-shadow: 0px 0px 4px #000;
     -moz-box-shadow: 0px 0px 4px  #000;

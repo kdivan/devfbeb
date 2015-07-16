@@ -260,6 +260,7 @@ class ControleurPhoto extends Controleur {
         //me/permission permettent de recupérer les permissions données par l'utilisateur
         $errorMessage = "";
         $editMode = null;
+        $lastId = "";
         try{
             if ( $this->session ) {
                 if( $this->requete->existeParametre('submit') ) {
@@ -277,38 +278,38 @@ class ControleurPhoto extends Controleur {
                         }elseif( trim($this->requete->getParametre('photo_from'))=='local' ){
                             if ( $_FILES['fichier']['error'] > 0 ){
                                 throw new Exception("Erreur lors du transfert : ". $_FILES['fichier']['error']);
-                            }else{
+                            }else {
                                 try {
                                     //Upload l'image sur le mur de l'utilisateur
                                     $this->fb = new FacebookFunctions($this->session);
-                                    $response = $this->fb->uploadPhotoToUserTimeline($_FILES,$userMessage);
+                                    $response = $this->fb->uploadPhotoToUserTimeline($_FILES, $userMessage);
                                     $fbPhotoId = $response->getProperty('id');
                                 } catch (FacebookRequestException $e) {
-                                    $errorMessage =  $e->getMessage();
-                                }
-                                if( strlen($errorMessage) < 1 ){
-                                    $currentUser = $this->fb->getCurrentUser();
-                                    $localUser = $this->utilisateur->getUtilisateur(array('facebook_id',$currentUser->getId()));
-
-                                    $dataToInsert['facebook_photo_id']  = $fbPhotoId;
-                                    $dataToInsert['fk_utilisateur_id']  = $localUser['id'];
-                                    $dataToInsert['fk_concours_id']     = $this->concours->getIdConcours();
-                                    $dataToInsert['message']            = $userMessage;
-                                    $dataToInsert['actif']              = 1;
-                                    $dataToInsert['date_participation'] = date('Y-m-d H:i:s');
-                                    $lastId  = $this->participation->insertParticipation($dataToInsert);
-
-                                    //si modification de l'image
-                                    if( $this->requete->existeParametre('edit_mode') ){
-                                        if( trim($this->requete->getParametre('edit_mode'))=='true' ){
-                                            $editMode = "true";
-                                            $this->participation->disableParticipation($this->requete->getParametre('id_participation'));
-                                        }
-                                    }
+                                    $errorMessage = $e->getMessage();
                                 }
                             }
                         }else{
                             throw new Exception("Action non reconnue : ni local, ni fb");
+                        }
+                        if( strlen($errorMessage) < 1 ){
+                            $currentUser = $this->fb->getCurrentUser();
+                            $localUser = $this->utilisateur->getUtilisateur(array('facebook_id',$currentUser->getId()));
+
+                            $dataToInsert['facebook_photo_id']  = $fbPhotoId;
+                            $dataToInsert['fk_utilisateur_id']  = $localUser['id'];
+                            $dataToInsert['fk_concours_id']     = $this->concours->getIdConcours();
+                            $dataToInsert['message']            = $userMessage;
+                            $dataToInsert['actif']              = 1;
+                            $dataToInsert['date_participation'] = date('Y-m-d H:i:s');
+                            $lastId  = $this->participation->insertParticipation($dataToInsert);
+
+                            //si modification de l'image
+                            if( $this->requete->existeParametre('edit_mode') ){
+                                if( trim($this->requete->getParametre('edit_mode'))=='true' ){
+                                    $editMode = "true";
+                                    $this->participation->disableParticipation($this->requete->getParametre('id_participation'));
+                                }
+                            }
                         }
                     }else{
                         throw new Exception("Action non reconnue : Photo from null");

@@ -8,34 +8,6 @@ $(document).ready(function() {
 });
 var maxElementToLoad = 8;
 elementLoad = 0;
-function displayParticipationDetail(participationId){
-    openDialog();
-    $.ajax({
-        type : 'POST',
-        url: 'photo/getparticipationdetail',
-        data: {
-            'participationId' : participationId
-        },
-        success: function(data) {
-            FB.XFBML.parse(document,setContentAndHideLoader(data));
-        },
-        error: function(xhr, status, error) {
-            document.getElementById("errorLog").innerHTML="";
-            document.getElementById("errorLog").innerHTML="Erreur - Impossible d'enregistrer. Contactez l'admin du site.";
-            console.log(xhr);
-            console.log(status);
-        }
-    });
-}
-
-function openDialog(){
-    $("#photo_detail_content").dialog({
-        title: 'Voter ',
-        resizable: false,
-        width: 'auto',
-        height : 'auto'
-    });
-}
 
 function closeDialog(){
     $("#photo_detail_content").dialog('close');

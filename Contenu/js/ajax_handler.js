@@ -23,7 +23,7 @@ function displayPhotos(albumId){
 }
 
 function openDialog(){
-    $("#from_facebook_modal").dialog({
+    $("#from_facebook_dialog").dialog({
         title: 'Sélectionnez un album puis une photo : ',
         resizable: false,
         width: 'auto',
@@ -32,7 +32,7 @@ function openDialog(){
 }
 
 function closeDialog(){
-    $("#from_facebook_modal").dialog('close');
+    $("#from_facebook_dialog").dialog('close');
 }
 
 
@@ -114,7 +114,7 @@ function showPhotoToPreview(photoSource){
     $("#is_new_image").val('true');
     console.log(photoSource);
     setPhotoFrom("fb");
-    $('#from_facebook_modal').modal('hide');
+    closeDialog();
 }
 
 

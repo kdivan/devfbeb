@@ -10,10 +10,10 @@ $cpt = 0;
         <?php $cpt=0; } ?>
     <li class="photo_participation">
         <a href="photo/participation/<?=$photo['id_participation']?>">
-        <img src="<?= $photo['source'] ?>" width="100px" height="100px"/>
-        <figcaption>
-            <?= "TEST" ?>
-        </figcaption>
+            <span class="roll" ></span>
+            <img src="<?= $photo['source'] ?>" width="150px" height="100px"/>
+            <a href="">Voter</a>
+       </a>
         <!--On affiche dans cette div le bouton voter, le nombre de like et un message!-->
             <div class="content"></div>
     </li>
@@ -25,5 +25,27 @@ $cpt = 0;
         $("#elementLoad").attr('value','<?=$elementLoad?>');
         console.log('<?=$class?>');
         console.log('<?=$elementLoad?>');
+    });
+    $(function() {
+// OPACITY OF BUTTON SET TO 0%
+        $(".roll").css("opacity","0");
+
+// ON MOUSE OVER
+        $(".roll").hover(function () {
+
+// SET OPACITY TO 70%
+                $(this).stop().animate({
+                    opacity: .7
+                }, "slow");
+            },
+
+// ON MOUSE OUT
+            function () {
+
+// SET OPACITY BACK TO 50%
+                $(this).stop().animate({
+                    opacity: 0
+                }, "slow");
+            });
     });
 </script>
