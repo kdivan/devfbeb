@@ -26,6 +26,7 @@ $cssLink = '<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/theme
             xfbml      : true,
             version    : 'v2.3'
         });
+        FB.Canvas.setAutoGrow();
     };
     (function(d, s, id){
         var js, fjs = d.getElementsByTagName(s)[0];
