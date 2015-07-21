@@ -48,7 +48,7 @@ class ControleurPhoto extends Controleur {
         $this->participation = new Participation();
         $this->utilisateur   = new Utilisateur();
         $this->concours      = new Concours();
-        $this->setRedirectUrl( SERVER_NAME.'?sk=app_' .APP_ID );
+        $this->setRedirectUrl( SERVER_NAME.'?sk=app_' .FB_APPID );
         $this->init();
         //$this->setSession($this->getFacebookSession());
         //$this->fb = new FacebookFunctions($this->session);
