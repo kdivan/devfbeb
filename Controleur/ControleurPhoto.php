@@ -48,7 +48,7 @@ class ControleurPhoto extends Controleur {
         $this->participation = new Participation();
         $this->utilisateur   = new Utilisateur();
         $this->concours      = new Concours();
-        $this->setRedirectUrl( SERVER_NAME );
+        $this->setRedirectUrl( SERVER_NAME.'?sk=app_' .APP_ID );
         $this->init();
         //$this->setSession($this->getFacebookSession());
         //$this->fb = new FacebookFunctions($this->session);
@@ -384,6 +384,7 @@ class ControleurPhoto extends Controleur {
                 $photosDataArray[] = array_merge($photos, $fbPhotoInfo);
             }
         }
+        //var_dump($photosDataArray);
         $this->genererVue( array( 'photosGalleryArray'=>$photosDataArray,'class'=>$class,'elementLoad'=>$elementLoad,
                                     'hasParticipate' => $hasParticipate, 'participation'=>$participation, 'filterArray'=>$filterArray,
                                     'selectedFilter' => $selectedFilter ),$withGabarit ) ;
