@@ -61,6 +61,7 @@ $(window).scroll(function() {
     //control si la div est active ou non => indique si il y a des données à charger ou non
     divStatus   = $( "#participationLoad" ).attr( 'class' );
     if(divStatus.localeCompare("disable")!=0){
+        console.log("window scrolltop" + $(window).scrollTop() + "document height" + $(document).height() + "window height" +  $(window).height());
         if($(window).scrollTop() == $(document).height() - $(window).height()) {
             // ajax call get data from server and append to the div
             console.log("bottom");
