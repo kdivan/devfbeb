@@ -4,8 +4,10 @@ require_once "header.php";
 
     <div id="global">
         <header id="header_gabarit">
-            <img src="Contenu/img/casque.png" alt="" />
-            <h1>Kotors</h1>
+            <a href="<?= $racineWeb ?>">
+                <img src="Contenu/img/casque.png" alt="" />
+                <h1>Kotors</h1>
+            </a>
         </header>
         <div id="contenu">
             <?= $contenu ?>

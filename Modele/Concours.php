@@ -13,7 +13,6 @@ class Concours extends Modele {
     private $dateDebut;
     private $dateFin;
     private $nom;
-    private $dateResultat;
 
     /**
      * @throws Exception
@@ -65,25 +64,8 @@ class Concours extends Modele {
         $this->setDateDebut($concoursInfo['date_debut']);
         $this->setDateFin($concoursInfo['date_fin']);
         $this->setNom($concoursInfo['nom']);
-        $this->setDateResultat($concoursInfo['date_resultat']);
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getDateResultat()
-    {
-        return $this->dateResultat;
-    }
-
-    /**
-     * @param mixed $dateResultat
-     */
-    private function setDateResultat($dateResultat)
-    {
-        $this->dateResultat = $dateResultat;
-    }
 
     /**
      * @return mixed

@@ -99,10 +99,11 @@ class Participation extends Modele {
         if( !(is_null($param)) ){
 
         }else{
-            $sql = "SELECT ". DB_PREFIX ."participation.*,id as id_participation
-                    FROM ". DB_PREFIX ."participation
-                        WHERE actif = ?
-                        AND fk_concours_id = ?";
+            $sql = "SELECT p.*,u.*,p.id as id_participation
+                    FROM ". DB_PREFIX ."participation as p,". DB_PREFIX ."utilisateurs as u
+                        WHERE p.actif = ?
+                        AND p.fk_concours_id = ?
+                        AND p.fk_utilisateur_id=u.id";
             $participationList = $this->executerRequete( $sql,array("1",$this->concours->getIdConcours()) );
             $participationListArray = $participationList->fetchAll();
             $participationList->closeCursor();

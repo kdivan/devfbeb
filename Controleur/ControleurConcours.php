@@ -33,37 +33,8 @@ class ControleurConcours extends Controleur{
         if(!isset($_SESSION)){
             session_start();
         }
-        $redirectUrl = SERVER_NAME;
-        FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
-        $helper = new FacebookRedirectLoginHelper( $redirectUrl );
-        $_SESSION['helper'] = $helper;
-        if (isset($_SESSION) && isset($_SESSION['fb_token'])) {
-            $session = new FacebookSession($_SESSION['fb_token']);
-        } else {
-            $session = $helper->getSessionFromRedirect();
-            $_SESSION['session'] = $session;
-        }
-        if ($session) {
-            $this->session = $session;
-            $token = (String)$session->getAccessToken();
-            $_SESSION['fb_token'] = $token;
-        } else {
-            $logMessage = "else";
-            $helper = new FacebookRedirectLoginHelper( $redirectUrl );
-            $auth_url = $helper->getLoginUrl();
-            $redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
-        }
-        if (!$session) {
-            $this->genererVue(array('redirectLink' => $redirectLink) );
-        }else{
-            $this->fb = new FacebookFunctions($session);
-        }
-        //controle si concours non fini
-        /*if( !$this->concours->isCurrentConcoursFinished() ){
-            $this->redirect(SERVER_NAME);
-        } else {*/
-            $this->executerAction("resultat");
-        //}
+        $this->fb = new FacebookFunctions($_SESSION);
+        $this->executerAction("resultat");
     }
 
     /**
@@ -72,10 +43,8 @@ class ControleurConcours extends Controleur{
     public function resultat(){
         $participation = new Participation();
         $allParticipation = $participation->getParticpationFromCurrentConcours();
-        //var_dump($allParticipation);
         foreach($allParticipation as $part){
-            $fbPhotoInfo            = $this->fb->getPictureInfo($part['facebook_photo_id'],'http://devfbeb1.herokuapp.com/photo/participation/'.$part['id_participation']);
-            $participationData[]    = array_merge($part,$fbPhotoInfo);
+            $participationData[]    = array_merge($part,$this->fb->getFbStats('http://devfbeb1.herokuapp.com/photo/participation/'.$part['facebook_photo_id']));
         }
         $winnersArray = $this->array_sort($participationData,'like_count',SORT_DESC,3);
         $concoursPrize = $this->concours->getConcoursPrize();

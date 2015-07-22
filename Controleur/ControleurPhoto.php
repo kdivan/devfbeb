@@ -352,8 +352,6 @@ class ControleurPhoto extends Controleur {
             $withGabarit = true;
             $selectedFilter = "more_recent";
         }
-        $cpt                = 0;
-        $photosDataArray    = [];
         $limitMax           = MAX_IMAGE_PER_LINE*2;
         //+1 pour vérifier qu'il y a au moins un element en plus pour charger la suite
         $photosGalleryArray = $this->participation->getParticipationWithLimit(0,$limitMax+1, $selectedFilter);

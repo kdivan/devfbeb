@@ -5,6 +5,7 @@
      <a href="photo/">Participer</a>
     </section>
 
+<div id="gallery_content">
     <section id="trier">
         <select id="filter" name="filter">
             <?php foreach( $filterArray as $filter ) {
@@ -49,7 +50,7 @@
         </div>
     </div>
 </section>
-
+</div>
     <div class="clear"></div>
 
 <?=$customJs?>

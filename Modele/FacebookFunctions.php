@@ -168,7 +168,16 @@ class FacebookFunctions
         $query = "select total_count,like_count,comment_count,share_count,click_count from link_stat where url='{$url}'";
         $call = "https://api.facebook.com/method/fql.query?query=" . rawurlencode($query) . "&format=json";
         $output = file_get_contents($call);
-        return json_decode($output);
+        $pictureFbStats = json_decode($output);
+        if ($pictureFbStats) {
+            // utile pour le tri par nb like
+            $statsArray['total_count']      = $pictureFbStats[0]->total_count;
+            $statsArray['like_count']       = $pictureFbStats[0]->like_count;
+            $statsArray['comment_count']    = $pictureFbStats[0]->comment_count;
+            $statsArray['share_count']      = $pictureFbStats[0]->share_count;
+            $statsArray['click_count']      = $pictureFbStats[0]->click_count;
+        }
+        return $statsArray;
     }
 
 }
