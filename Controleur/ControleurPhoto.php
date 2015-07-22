@@ -106,8 +106,10 @@ class ControleurPhoto extends Controleur {
                     //Insertion en base
                     $this->utilisateur->insertUtilisateur($currentUser);
                 }
+                var_dump($localUser);
                 //check if user has already participate in the competition
                 $participation = $this->participation->hasUserParticipateCurrentConcours($localUser['id']);
+                var_dump($participation);
                 //$participation = false;
                 if ($participation) {
                     //si le paramètre id existe => mode modification
