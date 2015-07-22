@@ -106,10 +106,8 @@ class ControleurPhoto extends Controleur {
                     //Insertion en base
                     $this->utilisateur->insertUtilisateur($currentUser);
                 }
-                var_dump($localUser);
                 //check if user has already participate in the competition
                 $participation = $this->participation->hasUserParticipateCurrentConcours($localUser['id']);
-                var_dump($participation);
                 //$participation = false;
                 if ($participation) {
                     //si le paramètre id existe => mode modification
@@ -322,9 +320,7 @@ class ControleurPhoto extends Controleur {
             }
         }catch (Exception $e){
             $errorMessage = $e->getMessage();
-            //$errorMessage  = "test";
         }
-        //$this->genererVue(array("message"=>$errorMessage,'param'=>$this->requete->getParametre('edit_mode'),'return'=>$lastId));
         //Genere la vue en fonction des evenements
         if( strlen($errorMessage) > 0 ){
             $this->genererVue(array('errorMessage'=>$errorMessage),true,"index");
@@ -349,8 +345,6 @@ class ControleurPhoto extends Controleur {
         $filterArray[0]['filter_string'] = "Les plus récentes";
         $filterArray[1]['filter_val'] = "less_recent";
         $filterArray[1]['filter_string'] = "Les moins récentes";
-        $filterArray[2]['filter_val'] = "more_vote";
-        $filterArray[2]['filter_string'] = "Les plus votées";
         if( $this->requete->existeParametre('filter') ) {
             $withGabarit = false;
             $selectedFilter = $this->requete->getParametre('filter');

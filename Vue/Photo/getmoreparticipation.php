@@ -12,7 +12,7 @@ $cpt = 0;
         <a href="photo/participation/<?=$photo['facebook_photo_id']?>">
             <span class="roll" ></span>
             <img src="<?= $photo['source'] ?>" width="<?= PHOTO_WIDTH ?>" height="<?= PHOTO_HEIGHT ?>"/>
-            <a href="">Voter</a>
+            <a style="text-align: center" href="photo/participation/<?=$photo['facebook_photo_id']?>">Voter</a>
        </a>
         <!--On affiche dans cette div le bouton voter, le nombre de like et un message!-->
             <div class="content"></div>

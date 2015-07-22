@@ -375,6 +375,63 @@ footer li a {
     font-size: 13px;
 }
 
+
+
+/*
+-----------------------------------------------------------------------------------------------------------------------------
+															PAGE PARTICIPATION
+-----------------------------------------------------------------------------------------------------------------------------
+*/
+
+.photo_main {
+    display: inline;
+    text-align: center;
+    border: 5px solid #565a5e;
+    width: 50%;
+    height: 50%;
+}
+
+#participation_display{
+    text-align: center;
+}
+
+
+#back_gallery {
+    position: relative;
+    float: left;
+    width: 50%;
+    margin:auto;
+}
+#back_gallery a {
+    margin-bottom: 20px;
+    float: left;
+    width: 50%;
+    padding: 1em;
+    margin-left:30px;
+    background-color: #565a5e;
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+
+#participer_link {
+    position: relative;
+    float: left;
+    width: 50%;
+}
+
+#participer_link a {
+    width: 50%;
+    float: right;
+    margin-right: 20px;
+    padding: 1em;
+    background-color: #565a5e;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-align: center;
+}
+
 /*
 -----------------------------------------------------------------------------------------------------------------------------
 															PAGE MERCI
@@ -524,12 +581,6 @@ input#fichier {
 }
 
 
-#participation_photo{
-    width: 50%;
-    max-width: 600px;
-    height: 50%;
-    max-height: 600px;
-}
 
 .photo_participation{
     margin: 20px;

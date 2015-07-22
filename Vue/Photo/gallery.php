@@ -1,4 +1,4 @@
-<?php $this->titre = "Facebook | Gallerie Photos"; $customJs='<script src="Contenu/js/getparticipationdetail.js"></script><script src="Contenu/js/ajax_handler.js"></script>'; $cpt = 0;?>
+<?php $this->titre = "Facebook | Galerie Photos"; $customJs='<script src="Contenu/js/getparticipationdetail.js"></script><script src="Contenu/js/ajax_handler.js"></script>'; $cpt = 0;?>
 
 
     <section id="participer">
@@ -28,7 +28,7 @@
                 <a href="photo/participation/<?=$photo['facebook_photo_id']?>">
                     <span class="roll" ></span>
                     <img src="<?= $photo['facebook_photo_link'] ?>" width="<?= PHOTO_WIDTH ?>" height="<?= PHOTO_HEIGHT ?>"/>
-                    <a href="">Voter</a>
+                    <a style="text-align: center" href="photo/participation/<?=$photo['facebook_photo_id']?>">Voter</a>
                 </a>
                 <!--On affiche dans cette div le bouton voter, le nombre de like et un message!-->
                 <div class="content"></div>

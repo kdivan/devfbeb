@@ -8,4 +8,4 @@ $this->js.='<script src="Contenu/js/ajax_handler.js"></script>
 <?php var_dump($message); ?>
 <?php var_dump($return); ?>
 
-<a href="photo/gallery">Gallerie</a>
+<a href="photo/gallery">Galerie</a>
