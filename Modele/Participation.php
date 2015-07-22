@@ -40,13 +40,22 @@ class Participation extends Modele {
     }
 
     /**
-     * @param $participationId
+     * @param $fbParticipationId
      * @return PDOStatement
-     * @throws Exception
      */
-    public function disableParticipation($participationId){
-        $sql = "UPDATE ".DB_PREFIX.'participation SET actif = ? WHERE id = ?';
-        $updateParticipation = $this->executerRequete( $sql,array("0",$participationId) );
+    public function disableParticipation($fbParticipationId){
+        $sql = "UPDATE ".DB_PREFIX.'participation SET actif = ? WHERE facebook_photo_id = ?';
+        $updateParticipation = $this->executerRequete( $sql,array("0",$fbParticipationId) );
+        return $updateParticipation;
+    }
+
+    /**
+     * @param $fbParticipationId
+     * @return PDOStatement
+     */
+    public function enableParticipation($fbParticipationId){
+        $sql = "UPDATE ".DB_PREFIX.'participation SET actif = ? WHERE facebook_photo_id = ?';
+        $updateParticipation = $this->executerRequete( $sql,array("1",$fbParticipationId) );
         return $updateParticipation;
     }
 

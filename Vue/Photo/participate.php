@@ -1,7 +1,13 @@
-<div id="particpate">
-    <div id="hasparticipate-message">Vous avez déjà participer au jeu. Vous pouvez tout de même consulter votre photo ou la modifier</div>
-    <div id="hasparticipate-links">
-        <div id="show-participation"><a href="photo/participation/<?=$participation['id']?>">Voir ma participation</a></div>
-        <div id="manage-participation"><a href="photo/<?=$participation['id']?>">Modifier ma photo</a></div>
-    </div>
-</div>
+<section id="body">
+    <img src="Contenu/img/appareil-photo.png" alt="" />
+    <h2>Concours photo</h2>
+    <div class="space">&nbsp;</div>
+    <p>Vous avez déjà participer au jeu. Vous pouvez tout de même consulter votre photo ou la modifier</p>
+</section>
+
+<section class="cta-merci">
+    <a href="photo/participation/<?=$participation['facebook_photo_id']?>">Voir ma participation</a>
+    <a href="photo/<?=$participation['facebook_photo_id']?>">Modifier ma photo</a>
+</section>
+
+<div class="clear"></div>

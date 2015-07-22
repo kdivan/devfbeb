@@ -18,7 +18,7 @@
     <a href="http://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/KotorsOfficiel?ref=hl&title=test"
        target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" >Partager Kotors</a>
     <a href="photo/gallery">Voter</a>
-    <a href="photo/participation/<?=$lastId ?>">Voir photo</a>
+    <a href="photo/participation/<?=$fbPariticipationId ?>">Voir photo</a>
 </section>
 
 <div class="clear"></div>

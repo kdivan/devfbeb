@@ -57,7 +57,7 @@ define('MAX_IMAGE_PER_LINE',4);
 define('DIALOG_WIDTH','');
 define('DIALOG_HEIGHT','');
 
-define('PHOTO_WIDTH','100px');
+define('PHOTO_WIDTH','150px');
 define('PHOTO_HEIGHT','100px');
 define('ALBUM_WIDTH','100px');
 define('ALBUM_HEIGHT','100px');

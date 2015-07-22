@@ -124,18 +124,6 @@ class FacebookFunctions
         //transform la data graphObject
         $pictureInfo = $response->getGraphObject();
         $pictureInfoArray = $pictureInfo->asArray();
-        /*if( strlen($url)> 0) {
-            $pictureFbStats = $this->getFbStats($url);
-            if ($pictureFbStats) {
-                // utile pour le tri par nb like
-                $statsArray['total_count']      = $pictureFbStats[0]->total_count;
-                $statsArray['like_count']       = $pictureFbStats[0]->like_count;
-                $statsArray['comment_count']    = $pictureFbStats[0]->comment_count;
-                $statsArray['share_count']      = $pictureFbStats[0]->share_count;
-                $statsArray['click_count']      = $pictureFbStats[0]->click_count;
-                return array_merge($pictureInfoArray, $statsArray);
-            }
-        }*/
         return $pictureInfoArray;
     }
 

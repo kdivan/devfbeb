@@ -9,9 +9,9 @@ $cpt = 0;
         <br />
         <?php $cpt=0; } ?>
     <li class="photo_participation">
-        <a href="photo/participation/<?=$photo['id_participation']?>">
+        <a href="photo/participation/<?=$photo['facebook_photo_id']?>">
             <span class="roll" ></span>
-            <img src="<?= $photo['source'] ?>" width="150px" height="100px"/>
+            <img src="<?= $photo['source'] ?>" width="<?= PHOTO_WIDTH ?>" height="<?= PHOTO_HEIGHT ?>"/>
             <a href="">Voter</a>
        </a>
         <!--On affiche dans cette div le bouton voter, le nombre de like et un message!-->

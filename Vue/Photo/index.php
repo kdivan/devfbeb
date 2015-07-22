@@ -17,14 +17,16 @@ if( isset( $redirectLink ) ){
 <?php } else { ?>
 
 
-    <?php if ( isset($editParticipation) ) {
+    <?php
+    $str = "télécharger ma photo";
+    if ( isset($editParticipation) ) {
         $imgSrc = $participationDataArray[0]['source'];
         $usrMsg = $participationDataArray[0]['name'];
-        var_dump($participationDataArray);
+        $str = "modifier ma photo";
     } ?>
     <section id="upload">
         <img src="Contenu/img/appareil-photo.png" alt="" />
-        <h2>télécharger ma photo</h2>
+        <h2><?=$str?></h2>
     </section>
 
     <section class="zone-image" >
@@ -70,7 +72,7 @@ if( isset( $redirectLink ) ){
             <input type="hidden" name="photo_facebook_id" id="photo_facebook_id" />
             <input type="hidden" name="photo_from" id="photo_from" />
             <?php if ( isset($editParticipation) ) {
-                ?> <input type="hidden" name="id_participation" id="id_participation" value="<?=$participationDataArray[0]['id_participation']?>" />
+                ?> <input type="hidden" name="id_participation" id="id_participation" value="<?=$participationDataArray[0]['facebook_photo_id']?>" />
                 <input type="hidden" name="edit_mode" id="edit_mode" value="<?=$editParticipation?>" />
             <?php } ?>
         </form>
