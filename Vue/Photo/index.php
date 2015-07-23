@@ -42,7 +42,6 @@ if( isset( $redirectLink ) ){
                     <li onclick="displayPhotos('<?= $album['id'] ?>')">
                         <div class="container">
                             <img width="<?=ALBUM_WIDTH?>" height="<?ALBUM_HEIGHT?>" class="image" src="<?=$album['source']?>">
-                            <p class="text">Selectionner</p>
                             <div class="album-name">'<?=$album['name']?>'</div>
                         </div>
                     </li>

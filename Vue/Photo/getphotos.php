@@ -40,10 +40,8 @@ $this->js.='<script src="Contenu/js/ajax_handler.js"></script>
 <?php }else { ?>
         <li  class="elem_1 photo" style="display:inline">
     <?php } ?>
-
             <span class="container" onclick="showPhotoToPreview('<?=$albumPhotos->source?>');setFacebookId('<?=$albumPhotos->id?>')">
             <img src='<?=$albumPhotos->source?>' width=50 height=50>
-            <p class="text">Selectionner</p>
             </span>
         </li>
 <?php } ?>
