@@ -47,11 +47,9 @@ class ControleurAccueil extends Controleur {
             //$this->redirect(SERVER_NAME."photo/");
         }
         //controle si concours non fini
-        /*if( $this->concours->isCurrentConcoursFinished() ){
-            $url = SERVER_NAME."concours/";
-            echo "<script>window.top.location.href='" . $url . "'</script>";
-            //$this->redirect(SERVER_NAME."concours/");
-        }*/
+        if( $this->concours->isCurrentConcoursFinished() ){
+            $this->executerAction("resultat");
+        }
         //TODO : GET CURRRENT USER SESSION
         $this->genererVue( );
     }
