@@ -12,6 +12,7 @@ $cssLink = '<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/theme
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
+    <meta property="og:title" content="Facebook Concours Photo Test"/>
     <base href="<?= $racineWeb ?>" >
     <?= $cssLink ?>
     <title><?= $this->titre ?></title>
