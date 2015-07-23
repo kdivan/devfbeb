@@ -162,6 +162,11 @@ $("#form").submit(function( event ){
     var usrMsg      = $("#user_message").val();
     var isNewImg    = $("#is_new_image").val();
     console.log(isNewImg);
+    if(usrMsg.length < 1 ){
+        event.preventDefault();
+        console.log('Erreur');
+        return false;
+    }
     if(isNewImg.trim().localeCompare('true') == 0){
 
     }else {

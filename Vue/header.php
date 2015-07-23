@@ -26,7 +26,7 @@ $cssLink = '<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/theme
             xfbml      : true,
             version    : 'v2.3'
         });
-        FB.Canvas.setSize({ width: 700, height: 550 });    };
+        FB.Canvas.setSize({ width: 800, height: 650 });    };
     (function(d, s, id){
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {return;}
