@@ -108,7 +108,7 @@ class ControleurPhoto extends Controleur {
                 }
                 //check if user has already participate in the competition
                 $participation = $this->participation->hasUserParticipateCurrentConcours($localUser['id']);
-                $participation = false;
+                //$participation = false;
                 if ($participation) {
                     //si le paramètre id existe => mode modification
                     // mettre l'image actuel en preview, pré remplir le message
