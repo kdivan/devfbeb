@@ -48,7 +48,7 @@ class ControleurPhoto extends Controleur {
         $this->utilisateur   = new Utilisateur();
         $this->participation = new Participation();
         $this->concours      = new Concours();
-        $this->setRedirectUrl( 'https://www.facebook.com/dialog/pagetab?app_id='.FB_APPID.'&redirect_uri='.SERVER_NAME );
+        $this->setRedirectUrl( SERVER_NAME );
         //$this->init();
         //$this->setSession($this->getFacebookSession());
         //$this->fb = new FacebookFunctions($this->session);
