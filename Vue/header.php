@@ -12,12 +12,13 @@ $cssLink = '<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/theme
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
+    <!--
     <meta property="fb:app_id"          content="<?= FB_APPID ?>" />
     <meta property="og:type"            content="article" />
     <meta property="og:url"             content="https://devfbeb1.herokuapp.com" />
     <meta property="og:title"           content="Introducing our New Site" />
     <meta property="og:description"    content="http://samples.ogp.me/390580850990722" />
-    <base href="<?= $racineWeb ?>" >
+    <base href="<?= $racineWeb ?>" > !-->
     <?= $cssLink ?>
     <title><?= $this->titre ?></title>
 </head>
