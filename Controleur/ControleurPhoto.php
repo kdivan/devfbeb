@@ -147,7 +147,7 @@ class ControleurPhoto extends Controleur {
         else {
             $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
             $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
-            $redirectLink = "<script>document.location.href='" . $auth_url . "'</script>";
+            $redirectLink = "<script>top.location.href='" . $auth_url . "'</script>";
             $this->genererVue(array('redirectUrl' => $redirectLink));
         }
 
