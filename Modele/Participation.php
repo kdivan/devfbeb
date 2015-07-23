@@ -145,9 +145,9 @@ class Participation extends Modele {
      */
     public function getParticipationWithLimit($limitMin, $limitMax,$selectedFilter="more_recent"){
         if( strcmp($selectedFilter,'more_recent')==0 ){
-            $filter = "date_participation ASC";
-        } elseif (strcmp($selectedFilter,'less_recent')==0 ){
             $filter = "date_participation DESC";
+        } elseif (strcmp($selectedFilter,'less_recent')==0 ){
+            $filter = "date_participation ASC";
         }
         $sql = "SELECT ". DB_PREFIX ."participation.*,id as id_participation
                     FROM ". DB_PREFIX ."participation

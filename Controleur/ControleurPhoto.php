@@ -108,7 +108,7 @@ class ControleurPhoto extends Controleur {
                 }
                 //check if user has already participate in the competition
                 $participation = $this->participation->hasUserParticipateCurrentConcours($localUser['id']);
-                //$participation = false;
+                $participation = false;
                 if ($participation) {
                     //si le paramètre id existe => mode modification
                     // mettre l'image actuel en preview, pré remplir le message
@@ -213,23 +213,18 @@ class ControleurPhoto extends Controleur {
      *
      */
     public function getmoreparticipation(){
-        $this->init();
         if( $this->requete->existeParametre('filter') ) {
             $selectedFilter = $this->requete->getParametre('filter');
         } else {
             $selectedFilter = "more_recent";
         }
-        $participationData      = [];
         $limitMin               = $this->requete->getParametre('limitMin');
         $limitMax               = $this->requete->getParametre('limitMax');
         $participationList      = $this->participation->getParticipationWithLimit($limitMin,$limitMax,$selectedFilter);
         $nbElem                 = $limitMax - $limitMin;
         $class                  = (count($participationList)<=$nbElem)?"disable":"enable";
-        foreach($participationList as $participation){
-            $fbPhotoInfo            = $this->fb->getPictureInfo($participation['facebook_photo_id'],SERVER_NAME.'photo/participation/'.$participation['id_participation']);
-            $participationData[]    = array_merge($participation,$fbPhotoInfo);
-        }
-        $this->genererVue( array('participationDataArray' => $participationData, 'class'=>$class, 'elementLoad'=> count($participationList) ),false );
+
+        $this->genererVue( array('participationDataArray' => $participationList, 'class'=>$class, 'elementLoad'=> count($participationList) ),false );
     }
 
     /**

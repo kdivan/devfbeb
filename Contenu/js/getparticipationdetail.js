@@ -57,11 +57,11 @@ function loadMoreData(){
 }
 
 //loader on scroll
-FB.Canvas.getPageInfo(
+/*FB.Canvas.getPageInfo(
     function(info) {
         alert('Width: ' + info.clientWidth + ' Height: ' + info.clientHeight);
     }
-);
+);*/
 
 
 $(window).scroll(function() {
