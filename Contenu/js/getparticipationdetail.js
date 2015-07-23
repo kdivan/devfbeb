@@ -57,6 +57,13 @@ function loadMoreData(){
 }
 
 //loader on scroll
+FB.Canvas.getPageInfo(
+    function(info) {
+        alert('Width: ' + info.clientWidth + ' Height: ' + info.clientHeight);
+    }
+);
+
+
 $(window).scroll(function() {
     //control si la div est active ou non => indique si il y a des données à charger ou non
     divStatus   = $( "#participationLoad" ).attr( 'class' );
