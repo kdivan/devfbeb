@@ -79,11 +79,12 @@ class ControleurPhoto extends Controleur {
             $logMessage = "else";
             $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
             $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
-            $redirectLink = "<script>top.location.href='" . $auth_url . "'</script>";
+            $redirectLink = "<script>document.location.href='" . $auth_url . "'</script>";
+            echo $redirectLink;
             //$redirectLink = "<a href='".$auth_url."'>Connectez vous à Facebook</a>";
         }
         if (!$session) {
-            $this->genererVue(array('redirectLink' => $redirectLink),true,"index");
+            //$this->genererVue(array('redirectLink' => $redirectLink),true,"index");
         }else{
             $this->fb = new FacebookFunctions($session);
         }
