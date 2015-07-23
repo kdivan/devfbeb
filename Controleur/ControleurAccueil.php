@@ -26,7 +26,8 @@ class ControleurAccueil extends Controleur {
     }
 
     /**
-     *
+     * Gestion du retour arpès connexion facebook
+     * Controle date du concours et appelle la vue
      */
     public function index(){
         if(!isset($_SESSION)){
@@ -52,23 +53,25 @@ class ControleurAccueil extends Controleur {
             $this->fb = new FacebookFunctions($_SESSION);
             $this->executerAction("resultat");
         } else {
-            //TODO : GET CURRRENT USER SESSION
             $this->genererVue( array("dateDebut"=> new DateTime($this->concours->getDateDebut()),
                                     "dateFin"=>new DateTime($this->concours->getDateFin())));
         }
     }
 
     /**
-     *
+     * Page podium ou resultat si concours est fini
+     * Déplacé dans ControleurAccueil car pb sur ControleurConcours
      */
     public function resultat(){
         $participation = new Participation();
+        //recuperation de l'ensemble des participations du concours courant
         $allParticipation = $participation->getParticpationFromCurrentConcours();
         foreach($allParticipation as $part){
-            $participationData[]    = array_merge($part,$this->fb->getFbStats('https://devfbeb1.herokuapp.com/photo/participation/'.$part['facebook_photo_id']));
+            $participationData[]    = array_merge($part,$this->fb->getFbStats(SERVER_NAME+'photo/participation/'.$part['facebook_photo_id']));
         }
+        //on trie par like count
         $winnersArray = $this->array_sort($participationData,'like_count',SORT_DESC,3);
-        //var_dump($winnersArray);
+        //récupère les prix du concours
         $concoursPrize = $this->concours->getConcoursPrize();
         $this->genererVue(array('winnersArray'=>$winnersArray,'concoursPrize'=>$concoursPrize));
     }

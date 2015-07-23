@@ -26,34 +26,54 @@ SET time_zone = "+00:00";
 -- Structure de la table `fb_concours`
 --
 
-DROP TABLE IF EXISTS `fb_concours`;
-CREATE TABLE IF NOT EXISTS `fb_concours` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
-  `date_debut` datetime NOT NULL,
-  `date_fin` datetime NOT NULL,
-  `actif` int(1) NOT NULL,
-  `nom` varchar(255) NOT NULL,
-  `date_resultat` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+-- Table: fb_concours
 
+-- DROP TABLE fb_concours;
+
+CREATE TABLE fb_concours
+(
+  id serial NOT NULL,
+  date_debut timestamp without time zone,
+  date_fin timestamp without time zone,
+  actif integer, -- 0 inactif...
+  nom character varying,
+  CONSTRAINT fb_utilisateurs_pkey PRIMARY KEY (id)
+)
+  WITH (
+OIDS=FALSE
+);
+ALTER TABLE fb_concours
+OWNER TO uvewrtiishknof;
+COMMENT ON COLUMN fb_concours.actif IS '0 inactif
+1 actif';
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `fb_participation`
 --
 
-DROP TABLE IF EXISTS `fb_participation`;
-CREATE TABLE IF NOT EXISTS `fb_participation` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
-  `fk_concours_id` int(255) NOT NULL,
-  `fk_utilisateur_id` int(255) NOT NULL,
-  `facebook_photo_id` varchar(255) DEFAULT NULL,
-  `message` varchar(255) DEFAULT NULL,
-  `date_participation` datetime NOT NULL,
-  `actif` int(1) NOT NULL COMMENT '1=actif, 0=desactivé',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+-- Table: fb_participation
+
+-- DROP TABLE fb_participation;
+
+CREATE TABLE fb_participation
+(
+  id serial NOT NULL,
+  fk_concours_id integer,
+  fk_utilisateur_id integer,
+  facebook_photo_id character varying(255),
+  message character varying(255),
+  date_participation timestamp without time zone,
+  actif integer,
+  facebook_photo_link character varying(255),
+  CONSTRAINT fb_participation_pkey PRIMARY KEY (id)
+)
+  WITH (
+OIDS=FALSE
+);
+ALTER TABLE fb_participation
+OWNER TO uvewrtiishknof;
+
 
 -- --------------------------------------------------------
 
@@ -61,19 +81,28 @@ CREATE TABLE IF NOT EXISTS `fb_participation` (
 -- Structure de la table `fb_utilisateurs`
 --
 
-DROP TABLE IF EXISTS `fb_utilisateurs`;
-CREATE TABLE IF NOT EXISTS `fb_utilisateurs` (
-  `id` int(25) NOT NULL AUTO_INCREMENT,
-  `facebook_id` int(255) NOT NULL,
-  `nom` varchar(255) DEFAULT NULL,
-  `prenom` varchar(255) DEFAULT NULL,
-  `genre` varchar(255) DEFAULT NULL,
-  `localisation` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `facebook_link` varchar(255) DEFAULT NULL,
-  `date_enregistrement` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+-- Table: fb_utilisateurs
+
+-- DROP TABLE fb_utilisateurs;
+
+CREATE TABLE fb_utilisateurs
+(
+  id serial NOT NULL,
+  facebook_id character varying(255),
+  nom character varying(255),
+  prenom character varying(255),
+  genre character varying(255),
+  localisation character varying(255),
+  email character varying(255),
+  facebook_link character varying(255),
+  date_enregistrement timestamp without time zone,
+  CONSTRAINT fb_utilisateurs_pkey1 PRIMARY KEY (id)
+)
+  WITH (
+OIDS=FALSE
+);
+ALTER TABLE fb_utilisateurs
+OWNER TO uvewrtiishknof;
 
 -- --------------------------------------------------------
 
@@ -81,13 +110,24 @@ CREATE TABLE IF NOT EXISTS `fb_utilisateurs` (
 -- Structure de la table `fb_vote`
 --
 
-DROP TABLE IF EXISTS `fb_vote`;
-CREATE TABLE IF NOT EXISTS `fb_vote` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
-  `fk_utilisateur_id` int(255) NOT NULL,
-  `fk_participation_id` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+-- Table: fb_concours_prize
+
+-- DROP TABLE fb_concours_prize;
+
+CREATE TABLE fb_concours_prize
+(
+  id serial NOT NULL,
+  fk_concours_id integer,
+  prize_position character varying(255),
+  prize_name character varying(255),
+  actif integer,
+  CONSTRAINT fb_concours_prize_pkey PRIMARY KEY (id)
+)
+  WITH (
+OIDS=FALSE
+);
+ALTER TABLE fb_concours_prize
+OWNER TO uvewrtiishknof;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

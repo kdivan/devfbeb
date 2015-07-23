@@ -13,6 +13,8 @@ use Facebook\FacebookRedirectLoginHelper;
 
 /**
  * Class ControleurPhoto
+ * Controleur permettant de gérer les pages participer, gallery, visualisation
+ * d'une photo, connexion ...
  */
 class ControleurPhoto extends Controleur {
 
@@ -49,19 +51,16 @@ class ControleurPhoto extends Controleur {
         $this->participation = new Participation();
         $this->concours      = new Concours();
         $this->setRedirectUrl( SERVER_NAME );
-        //$this->init();
-        //$this->setSession($this->getFacebookSession());
-        //$this->fb = new FacebookFunctions($this->session);
     }
 
     /**
-     *
+     * Gère la connexion
+     * Redirect vers l'accueil
      */
     public function init(){
         if(!isset($_SESSION)){
             session_start();
         }
-        //var_dump($_SESSION);
         FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
         $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
         $_SESSION['helper'] = $helper;
@@ -80,8 +79,6 @@ class ControleurPhoto extends Controleur {
             $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
             $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
             $redirectLink = "<script>document.location.href='" . $auth_url . "'</script>";
-            echo $redirectLink;
-            //$redirectLink = "<a href='".$auth_url."'>Connectez vous à Facebook</a>";
         }
         if (!$session) {
             $this->genererVue(array('redirectLink' => $redirectLink),true,"index");
@@ -91,44 +88,14 @@ class ControleurPhoto extends Controleur {
     }
 
     /**
+     * Génère la vue upload (participer) avec un controle sur les permissions
      *
-     * Génère la vue index
-     * @sendDataToView Array contenant les albums de l'utilisateur
      */
     public function index($errorMessage=NULL) {
-        if(!isset($_SESSION)){
-            session_start();
-        }
-        //var_dump($_SESSION);
-        FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
-        $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
-        $_SESSION['helper'] = $helper;
-        if (isset($_SESSION) && isset($_SESSION['fb_token'])) {
-            $session = new FacebookSession($_SESSION['fb_token']);
-        } else {
-            $session = $helper->getSessionFromRedirect();
-            $_SESSION['session'] = $session;
-        }
-        if ($session) {
-            $this->session = $session;
-            $token = (String)$session->getAccessToken();
-            $_SESSION['fb_token'] = $token;
-        } else {
-            $logMessage = "else";
-            $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
-            $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
-            $redirectLink = "<script>document.location.href='" . $auth_url . "'</script>";
-            //$redirectLink = "<a href='".$auth_url."'>Connectez vous à Facebook</a>";
-        }
-        if (!$session) {
-            $this->genererVue( array('redirectLink' => $redirectLink) );
-        }else{
-            $this->fb = new FacebookFunctions($session);
-        }
+        $this->init();
         //check if user has all perms
         if ($this->fb->checkPerms(array('public_profile', 'email', 'user_photos', 'publish_actions'))) {
             try {
-                $message = "";
                 $currentUser = $this->fb->getCurrentUser();
                 //Vérification dans la table utilisateur
                 $localUser = $this->utilisateur->getUtilisateur(array('facebook_id', $currentUser->getId()));
@@ -147,7 +114,6 @@ class ControleurPhoto extends Controleur {
                         $albumsArray        = $this->getAlbumData();
                         $fbParticipationId    = $this->requete->getParametre('id');
                         //controle avec current user
-                        //isUserParticipation($participationId,$localUser);
                         $participation      = $this->participation->findBy( array("facebook_photo_id"=>$fbParticipationId) );
                         if( $participation['fk_utilisateur_id'] == $localUser['id']) {
                             $fbPhotoInfo        = $this->fb->getPictureInfo($participation['facebook_photo_id']);
@@ -173,17 +139,18 @@ class ControleurPhoto extends Controleur {
                 var_dump($e);
                 exit;
             }
-        } //redirect for login with perms
+        } //redirect login
         else {
             $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
             $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
-            $redirectLink = "<script>window.top.location.href='" . $auth_url . "'</script>";
+            $redirectLink = "<script>document.location.href='" . $auth_url . "'</script>";
             $this->genererVue(array('redirectUrl' => $redirectLink));
         }
 
     }
 
     /**
+     * Récupère les infos sur les albums de l'user
      * @return array
      */
     private function getAlbumData(){
@@ -195,7 +162,6 @@ class ControleurPhoto extends Controleur {
                     $coverInfo = $this->fb->getPictureInfo($albumArray['cover_photo']);
                 } catch (Exception $e) {
                     $e->getMessage();
-                    //exit;
                 }
                 $albumsArray[] = array_merge($coverInfo, $albumArray);
             }
@@ -204,6 +170,7 @@ class ControleurPhoto extends Controleur {
     }
 
     /**
+     * Affiche la page pour l'utilisateur ayant déja participé
      * @param $dataArray
      */
     public function participate($dataArray) {
@@ -226,21 +193,18 @@ class ControleurPhoto extends Controleur {
     }
 
     /**
-     *
+     * Visualisation de la participation en récupérant l'id envoyé en paramètre get
      */
     public function participation(){
-        //$this->init();
         if ( $this->requete->existeParametre('id') ) {
             $fbParticipationId    = $this->requete->getParametre('id');
             $participation      = $this->participation->findBy( array("facebook_photo_id"=>$fbParticipationId) );
-            //$fbPhotoInfo        = $this->fb->getPictureInfo($participation['facebook_photo_id'],SERVER_NAME.'photo/participation/'.$participation['id_participation']);
-            //$participationDataArray[]  = array_merge($participation,$fbPhotoInfo);
             $this->genererVue( array('participationDataArray' => $participation) );
         }
     }
 
     /**
-     *
+     * Fonction appelé par AJAX pour affiché plus de participation
      */
     public function getmoreparticipation(){
         if( $this->requete->existeParametre('filter') ) {
@@ -341,7 +305,7 @@ class ControleurPhoto extends Controleur {
                     throw new Exception("Une erreur a eu lieu lors de l'upload de la photo");
                 }
             }else{
-                $this->setSession( $this->getFacebookSession() );
+                $this->session =  $this->getFacebookSession();
             }
         }catch (Exception $e){
             $errorMessage = $e->getMessage();
@@ -355,13 +319,14 @@ class ControleurPhoto extends Controleur {
     }
 
     /**
-     *
+     * Genère la page merci (= confirmation de participation)
      */
     public function confirmation($params=array()){
         $this->genererVue($params);
     }
 
     /**
+     * Génère la page galerie
      *
      */
     public function gallery() {

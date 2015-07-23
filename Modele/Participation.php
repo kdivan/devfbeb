@@ -111,14 +111,6 @@ class Participation extends Modele {
         }
     }
 
-    public function updateParticipation(){
-
-    }
-
-    public function deleteParticipation(){
-
-    }
-
     /**
      * @param $userId
      * @return bool|mixed
@@ -162,6 +154,7 @@ class Participation extends Modele {
     }
 
     /**
+     * Récupère l'ensemble des participations du concours courant
      * @return array
      */
     public function getAllParticipationCurrentConcours(){

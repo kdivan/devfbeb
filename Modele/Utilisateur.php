@@ -2,10 +2,9 @@
 
 require_once 'Framework/Modele.php';
 
+
 /**
- * Fournit les services d'accès aux genres musicaux
- *
- * @author Baptiste Pesquet
+ * Class Utilisateur
  */
 class Utilisateur extends Modele {
 
@@ -44,13 +43,6 @@ class Utilisateur extends Modele {
         }
     }
 
-    public function updateUtilisateur(){
-
-    }
-
-    public function deleteUtilisateur(){
-
-    }
 
     /**
      * Prepare un tableau afin de pouvoir utiliser la fonction insert()

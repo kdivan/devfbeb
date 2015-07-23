@@ -22,6 +22,7 @@ class Concours extends Modele {
     }
 
     /**
+     * Récupère info du concours courant
      * @return mixed
      * @throws Exception
      */
@@ -34,6 +35,10 @@ class Concours extends Modele {
         }
     }
 
+    /**
+     * Controle si le concours est fini ou non
+     * @return bool
+     */
     public function isCurrentConcoursFinished() {
         $sql = "SELECT * from ".DB_PREFIX. "concours
                     WHERE actif=?
@@ -47,7 +52,7 @@ class Concours extends Modele {
     }
 
     /**
-     *
+     *Récupère la liste des prix
      */
     public function getConcoursPrize(){
         $sql = "SELECT * from ".DB_PREFIX. "concours_prize

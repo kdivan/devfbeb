@@ -12,6 +12,7 @@ use Facebook\FacebookRedirectLoginHelper;
 
 /**
  * Class FacebookFunctions
+ * Gère les interactions avec facebook
  */
 class FacebookFunctions
 {
@@ -23,6 +24,7 @@ class FacebookFunctions
     }
 
     /**
+     * Récupère les albums de l'utilisateur courant
      * @return mixed
      * @throws \Facebook\FacebookRequestException
      */
@@ -48,6 +50,7 @@ class FacebookFunctions
     }
 
     /**
+     * Récupère le thumbnail de l'album
      * @param $albumId
      * @return mixed
      * @throws \Facebook\FacebookRequestException
@@ -65,6 +68,7 @@ class FacebookFunctions
     }
 
     /**
+     * Récupère les photos associés à l'album
      * @param $albumId
      * @return mixed
      * @throws \Facebook\FacebookRequestException
@@ -80,6 +84,7 @@ class FacebookFunctions
     }
 
     /**
+     * Upload la photo sur le mur de l'utilisateur
      * @param $fileArray
      * @param $userMessage
      * @return mixed
@@ -96,6 +101,7 @@ class FacebookFunctions
     }
 
     /**
+     * Récupère les infos de l'utilisateur courant
      * @return mixed
      * @throws \Facebook\FacebookRequestException
      */
@@ -109,6 +115,7 @@ class FacebookFunctions
     }
 
     /**
+     * Récupère les infos de la photo
      * @param $fbPhotoId
      * @param string $url
      * @return array
@@ -128,6 +135,7 @@ class FacebookFunctions
     }
 
     /**
+     * Récupère les permissions de l'utilisateur courant
      * @param string $permName
      * @return mixed
      * @throws \Facebook\FacebookRequestException
@@ -147,6 +155,7 @@ class FacebookFunctions
     }
 
     /**
+     * Controle les permissions de l'utilisateur courznt
      * @param $fbRequestedPerms
      * @return bool
      */
@@ -161,6 +170,8 @@ class FacebookFunctions
     }
 
     /**
+     * Récupère les stats(like,share ...) associés à une url
+     * Requete fql
      * @param $url
      * @return mixed
      */
