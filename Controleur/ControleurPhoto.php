@@ -84,7 +84,7 @@ class ControleurPhoto extends Controleur {
             //$redirectLink = "<a href='".$auth_url."'>Connectez vous à Facebook</a>";
         }
         if (!$session) {
-            //$this->genererVue(array('redirectLink' => $redirectLink),true,"index");
+            $this->genererVue(array('redirectLink' => $redirectLink),true,"index");
         }else{
             $this->fb = new FacebookFunctions($session);
         }
@@ -96,7 +96,35 @@ class ControleurPhoto extends Controleur {
      * @sendDataToView Array contenant les albums de l'utilisateur
      */
     public function index($errorMessage=NULL) {
-        $this->init();
+        if(!isset($_SESSION)){
+            session_start();
+        }
+        //var_dump($_SESSION);
+        FacebookSession::setDefaultApplication(FB_APPID, FB_APPSECRET);
+        $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
+        $_SESSION['helper'] = $helper;
+        if (isset($_SESSION) && isset($_SESSION['fb_token'])) {
+            $session = new FacebookSession($_SESSION['fb_token']);
+        } else {
+            $session = $helper->getSessionFromRedirect();
+            $_SESSION['session'] = $session;
+        }
+        if ($session) {
+            $this->session = $session;
+            $token = (String)$session->getAccessToken();
+            $_SESSION['fb_token'] = $token;
+        } else {
+            $logMessage = "else";
+            $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
+            $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
+            $redirectLink = "<script>document.location.href='" . $auth_url . "'</script>";
+            //$redirectLink = "<a href='".$auth_url."'>Connectez vous à Facebook</a>";
+        }
+        if (!$session) {
+            $this->genererVue( array('redirectLink' => $redirectLink) );
+        }else{
+            $this->fb = new FacebookFunctions($session);
+        }
         //check if user has all perms
         if ($this->fb->checkPerms(array('public_profile', 'email', 'user_photos', 'publish_actions'))) {
             try {
