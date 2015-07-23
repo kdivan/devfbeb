@@ -40,7 +40,7 @@ if(IS_LOCAL) {
 /**
  * DB Common configuration
  */
-define('DB_STRING','pgsql:host=ec2-54-228-227-217.eu-west-1.compute.amazonaws.com;dbname=dfcu88d9rcvqjg');
+define('DB_STRING',DB_TYPE.':host='.DB_HOST.';dbname='.DB_NAME);
 define('DB_PREFIX','fb_');
 
 /**
