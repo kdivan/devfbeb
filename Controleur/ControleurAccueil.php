@@ -64,10 +64,10 @@ class ControleurAccueil extends Controleur {
         $participation = new Participation();
         $allParticipation = $participation->getParticpationFromCurrentConcours();
         foreach($allParticipation as $part){
-            $participationData[]    = array_merge($part,$this->fb->getFbStats(SERVER_NAME.'/photo/participation/'.$part['facebook_photo_id']));
+            $participationData[]    = array_merge($part,$this->fb->getFbStats('https://devfbeb1.herokuapp.com/photo/participation/'.$part['facebook_photo_id']));
         }
         $winnersArray = $this->array_sort($participationData,'like_count',SORT_DESC,3);
-        var_dump($winnersArray);
+        //var_dump($winnersArray);
         $concoursPrize = $this->concours->getConcoursPrize();
         $this->genererVue(array('winnersArray'=>$winnersArray,'concoursPrize'=>$concoursPrize));
     }
