@@ -80,6 +80,7 @@ class ControleurPhoto extends Controleur {
             $helper = new FacebookRedirectLoginHelper($this->redirectUrl);
             $auth_url = $helper->getLoginUrl([FB_RIGHTS]);
             $redirectLink = "<script>top.location.href='" . $auth_url . "'</script>";
+            $redirectLink = "<a href='".$auth_url."'>Connectez vous à Facebook</a>";
         }
         if (!$session) {
             $this->genererVue(array('redirectLink' => $redirectLink),true,"index");
