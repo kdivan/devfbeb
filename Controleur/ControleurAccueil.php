@@ -53,7 +53,8 @@ class ControleurAccueil extends Controleur {
             $this->executerAction("resultat");
         } else {
             //TODO : GET CURRRENT USER SESSION
-            $this->genererVue( );
+            $this->genererVue( array("dateDebut"=> new DateTime($this->concours->getDateDebut()),
+                                    "dateFin"=>new DateTime($this->concours->getDateFin())));
         }
     }
 

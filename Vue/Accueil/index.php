@@ -6,7 +6,7 @@ $customJs   ='<script src="Contenu/js/ajax_handler.js"></script>
         <img src="Contenu/img/appareil-photo.png" alt="" />
         <h2>Concours photo</h2>
         <div class="space">&nbsp;</div>
-        <p>Participez au concours KOTORS et tentez de gagner de nombreux cadeaux de la marque !</p>
+        <p>Participez au concours KOTORS du <?= $dateDebut->format('d-m-Y') ?> au <?= $dateFin->format('d-m-Y') ?> et tentez de gagner de nombreux cadeaux de la marque !</p>
         <p>Pour participer, il vous suffit d'envoyer une photo de votre moto mise en valeur par un joli paysage.</p>
         <p>Enfin, partagez à vos amis et demandez leur de voter pour vous !</p>
     </section>
