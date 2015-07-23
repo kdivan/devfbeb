@@ -47,13 +47,30 @@ class ControleurAccueil extends Controleur {
             //$this->redirect(SERVER_NAME."photo/");
         }
         //controle si concours non fini
-        if( $this->concours->isCurrentConcoursFinished() ){
+        /*if( $this->concours->isCurrentConcoursFinished() ){
             $url = SERVER_NAME."concours/";
             echo "<script>window.top.location.href='" . $url . "'</script>";
             //$this->redirect(SERVER_NAME."concours/");
-        }
+        }*/
         //TODO : GET CURRRENT USER SESSION
         $this->genererVue( );
     }
+
+    /**
+     *
+     */
+    public function resultat(){
+        $participation = new Participation();
+        $allParticipation = $participation->getParticpationFromCurrentConcours();
+        foreach($allParticipation as $part){
+            $participationData[]    = array_merge($part,$this->fb->getFbStats('https://devfbeb1.herokuapp.com/photo/participation/'.$part['facebook_photo_id']));
+        }
+        $winnersArray = $this->array_sort($participationData,'like_count',SORT_DESC,3);
+        $concoursPrize = $this->concours->getConcoursPrize();
+        $this->genererVue(array('winnersArray'=>$winnersArray,'concoursPrize'=>$concoursPrize));
+    }
+
+
+
 }
 
